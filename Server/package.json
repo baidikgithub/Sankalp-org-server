@@ -1,0 +1,16 @@
+{
+  "name": "sankalp-org-server",
+  "version": "1.0.0",
+  "description": "This is the server of sankalp youth organisation",
+  "license": "ISC",
+  "author": "Baidik",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}

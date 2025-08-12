@@ -1,83 +1,148 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import '../styles/components/Navigation.css';
-import logo from '../assets/logo/logo.png';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, Drawer, Button, Dropdown, Space } from "antd";
+import { MenuOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import logo from "../assets/logo/logo.png";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    navigate("/signin");
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  const guestNavItems = [
+    { key: "/", label: <Link to="/">Home</Link> },
+    { key: "/about", label: <Link to="/about">About</Link> },
+    { key: "/join", label: <Link to="/join">Join</Link> },
+    { key: "/signin", label: <Link to="/signin">Sign In</Link> },
+    { key: "/contact", label: <Link to="/contact">Contact</Link> },
+    { key: "/blog", label: <Link to="/blog">Blog</Link> },
+    { key: "/events", label: <Link to="/events">Events</Link> },
+    { key: "/collaborations", label: <Link to="/collaborations">Collaborations</Link> },
+    { key: "/coupons", label: <Link to="/coupons">Coupons</Link> },
+    { key: "/payment", label: <Link to="/payment">Payment</Link> },
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-    // Apply theme to document root
-    document.documentElement.setAttribute('data-theme', !isDarkTheme ? 'dark' : 'light');
-  };
-
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/events', label: 'Events' },
-    { path: '/collaborations', label: 'Collaborations' },
-    { path: '/coupons', label: 'Coupons' },
-    { path: '/payment', label: 'Payment' },
-    { path: '/contact', label: 'Contact' },
-    { path: '/join', label: 'Join' },
-    { path: '/admin', label: 'Admin', isAdmin: true },
-    { path: '/login', label: 'Login'},
   ];
 
+  const userNavItems = [
+    { key: "/events", label: <Link to="/events">Events</Link> },
+    { key: "/collaborations", label: <Link to="/collaborations">Collaborations</Link> },
+    { key: "/coupons", label: <Link to="/coupons">Coupons</Link> },
+    { key: "/payment", label: <Link to="/payment">Payment</Link> },
+  ];
+
+  const desktopMenuItems = isLoggedIn ? userNavItems : guestNavItems;
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
-    <motion.nav 
-      className="navbar"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 64,
+        zIndex: 1000,
+        background: "#fff",
+        borderBottom: "1px solid #f0f0f0",
+        padding: "0 20px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
     >
-      <div className="nav-container">
-      <Link to="/" className="nav-logo" onClick={closeMenu}>
-      <img src={logo} alt="Aarya Youth Organisation" className="logo-image" />
+      {/* Logo */}
+      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+        <img src={logo} alt="Logo" style={{ height: 40 }} />
       </Link>
-        
-        {/* Theme Toggle Button */}
-        <button className="theme-toggle" onClick={toggleTheme} title="Toggle Theme">
-          {isDarkTheme ? (
-            <i className="fas fa-sun"></i>
-          ) : (
-            <i className="fas fa-moon"></i>
-          )}
-        </button>
-        
-        <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`nav-link ${location.pathname === item.path ? 'active' : ''} ${item.isAdmin ? 'admin-link' : ''}`}
-              onClick={closeMenu}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-        
-        <div className="nav-toggle" onClick={toggleMenu}>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-          <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-        </div>
+
+      {/* Desktop Navigation */}
+      <div className="desktop-menu" style={{ flex: 1, marginLeft: 30 }}>
+        <Menu
+          mode="horizontal"
+          selectedKeys={[location.pathname]}
+          items={desktopMenuItems}
+          style={{ borderBottom: "none" }}
+        />
       </div>
-    </motion.nav>
+
+      {/* Right Side (User Menu) */}
+      {isLoggedIn && (
+        <Dropdown overlay={userMenu} placement="bottomRight">
+          <Space style={{ cursor: "pointer", marginLeft: 20 }}>
+            <UserOutlined /> Profile
+          </Space>
+        </Dropdown>
+      )}
+
+      {/* Mobile Hamburger Button */}
+      <Button
+        className="mobile-menu-btn"
+        icon={<MenuOutlined />}
+        onClick={toggleMenu}
+        // style={{ display: "none" }} Remove this inline style
+      />
+
+      {/* Drawer for Mobile */}
+      <Drawer
+        title="Navigation"
+        placement="right"
+        onClose={closeMenu}
+        open={isMenuOpen}
+      >
+        <Menu
+          mode="vertical"
+          selectedKeys={[location.pathname]}
+          onClick={closeMenu}
+          items={desktopMenuItems}
+        />
+        {isLoggedIn && (
+          <Button
+            type="primary"
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+            style={{ marginTop: 20 }}
+            block
+          >
+            Logout
+          </Button>
+        )}
+      </Drawer>
+
+      {/* Add in your CSS file: */}
+      {/* 
+        @media (max-width: 900px) {
+          .desktop-menu { display: none !important; }
+          .mobile-menu-btn { display: inline-flex !important; }
+        }
+        @media (min-width: 900px) {
+          .desktop-menu { display: block !important; }
+          .mobile-menu-btn { display: none !important; }
+        }
+      */}
+    </nav>
   );
 };
 
-export default Navigation; 
+export default Navigation;

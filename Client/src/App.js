@@ -9,8 +9,6 @@ import Contact from './pages/Contact';
 import Events from './pages/Events';
 import JoinUs from './pages/JoinUs';
 import Payment from './pages/Payment';
-import Coupons from './pages/Coupons';
-import Collaborations from './pages/Collaborations';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
@@ -89,10 +87,8 @@ const AppContent = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/collaborations" element={<Collaborations />} />
           <Route path="/join" element={<JoinUs />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/coupons" element={<Coupons />} />
         </Routes>
       </main>
       <Footer />

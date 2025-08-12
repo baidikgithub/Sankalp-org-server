@@ -1,87 +1,88 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import '../styles/pages/Contact.css';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Card,
+  Typography,
+  Space,
+  Avatar
+} from "antd";
+import {
+  MailOutlined,
+  PhoneOutlined,
+  EnvironmentOutlined,
+  ClockCircleOutlined,
+  FacebookFilled,
+  InstagramFilled,
+  LinkedinFilled,
+  YoutubeFilled
+} from "@ant-design/icons";
 
-// Import images from assets
-import home1 from '../assets/home/home1.jpg';
-import home2 from '../assets/home/home2.jpg';
-import home3 from '../assets/home/home3.jpg';
-import home4 from '../assets/home/home4.jpg';
+import home1 from "../assets/home/home1.jpg";
+import home2 from "../assets/home/home2.jpg";
+import home3 from "../assets/home/home3.jpg";
+import home4 from "../assets/home/home4.jpg";
+
+const { Title, Paragraph, Text } = Typography;
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitMessage('Thank you for your message! We will get back to you soon.');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      setTimeout(() => setSubmitMessage(''), 5000);
-    }, 1500);
-  };
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const contactInfo = [
     {
-      icon: 'fas fa-envelope',
-      title: 'Email',
-      value: 'aaryaforworld@gmail.com',
-      link: 'mailto:aaryaforworld@gmail.com'
+      icon: <MailOutlined />,
+      title: "Email",
+      value: "abc@gmail.com",
+      link: "mailto:abc@gmail.com"
     },
     {
-      icon: 'fas fa-phone',
-      title: 'Phone',
-      value: '+123 456 789',
-      link: 'tel:+123456789'
+      icon: <PhoneOutlined />,
+      title: "Phone",
+      value: "+123 456 789",
+      link: "tel:+123456789"
     },
     {
-      icon: 'fas fa-map-marker-alt',
-      title: 'Address',
-      value: '123 Community Street, City, State 12345',
-      link: null
+      icon: <EnvironmentOutlined />,
+      title: "Address",
+      value: "123 Community Street, City, State 12345"
     },
     {
-      icon: 'fas fa-clock',
-      title: 'Office Hours',
-      value: 'Mon - Fri: 9:00 AM - 6:00 PM',
-      link: null
+      icon: <ClockCircleOutlined />,
+      title: "Office Hours",
+      value: "Mon - Fri: 9:00 AM - 6:00 PM"
     }
   ];
 
   const socialLinks = [
-    { icon: 'fab fa-facebook', url: 'https://facebook.com', label: 'Facebook' },
-    { icon: 'fab fa-instagram', url: 'https://instagram.com', label: 'Instagram' },
-    { icon: 'fab fa-linkedin', url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: 'fab fa-youtube', url: 'https://youtube.com', label: 'YouTube' }
+    { icon: <FacebookFilled />, url: "https://facebook.com" },
+    { icon: <InstagramFilled />, url: "https://instagram.com" },
+    { icon: <LinkedinFilled />, url: "https://linkedin.com" },
+    { icon: <YoutubeFilled />, url: "https://youtube.com" }
   ];
+
+  const gallery = [
+    { img: home2, title: "Community Outreach", desc: "Connecting with communities" },
+    { img: home3, title: "Healthcare Programs", desc: "Bringing health to all" },
+    { img: home4, title: "Education Initiatives", desc: "Empowering through knowledge" }
+  ];
+
+  const handleSubmit = (values) => {
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitMessage("Thank you for your message! We will get back to you soon.");
+      setTimeout(() => setSubmitMessage(""), 5000);
+    }, 1500);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
   };
 
   const itemVariants = {
@@ -90,355 +91,193 @@ const Contact = () => {
   };
 
   return (
-    <div className="page-container">
+    <div>
       {/* Hero Section */}
-      <section className="contact-hero" style={{ backgroundImage: `url(${home1})` }}>
-        <div className="hero-overlay">
-          <div className="container">
-            <motion.div
-              className="hero-content"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="hero-title">Contact Us</h1>
-              <p className="hero-subtitle">Get in touch with us for any questions or collaborations</p>
-            </motion.div>
-          </div>
+      <div
+        style={{
+          backgroundImage: `url(${home1})`,
+          minHeight: "50vh",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          color: "white"
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 1
+          }}
+        />
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            padding: "60px 0",
+            textAlign: "center",
+            zIndex: 2
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Title style={{ color: "white" }}>Contact Us</Title>
+            <Paragraph style={{ color: "white", fontSize: "16px" }}>
+              Get in touch with us for any questions or collaborations
+            </Paragraph>
+          </motion.div>
         </div>
-      </section>
+      </div>
+
 
       <motion.div
-        className="container"
+        style={{ padding: "40px" }}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Contact Images Gallery */}
-        <motion.section
-          className="contact-gallery-section"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h2 className="section-title" variants={itemVariants}>
-            Our Work in Action
-          </motion.h2>
-          <motion.p className="section-subtitle" variants={itemVariants}>
-            See the impact of our community initiatives and programmes
-          </motion.p>
-          <div className="contact-gallery">
-            <motion.div className="gallery-item" variants={itemVariants}>
-              <img src={home2} alt="Community Outreach" className="gallery-image" />
-              <div className="gallery-overlay">
-                <h3>Community Outreach</h3>
-                <p>Connecting with communities</p>
-              </div>
-            </motion.div>
-            <motion.div className="gallery-item" variants={itemVariants}>
-              <img src={home3} alt="Healthcare Programs" className="gallery-image" />
-              <div className="gallery-overlay">
-                <h3>Healthcare Programs</h3>
-                <p>Bringing health to all</p>
-              </div>
-            </motion.div>
-            <motion.div className="gallery-item" variants={itemVariants}>
-              <img src={home4} alt="Education Initiatives" className="gallery-image" />
-              <div className="gallery-overlay">
-                <h3>Education Initiatives</h3>
-                <p>Empowering through knowledge</p>
-              </div>
-            </motion.div>
-          </div>
-        </motion.section>
+        {/* Gallery */}
+        <motion.div variants={itemVariants} style={{ textAlign: "center" }}>
+          <Title level={2}>Our Work in Action</Title>
+          <Paragraph>See the impact of our community initiatives</Paragraph>
+        </motion.div>
 
-        <div className="contact-container">
+        <Row gutter={[20, 20]} style={{ marginTop: 20 }}>
+          {gallery.map((g, i) => (
+            <Col xs={24} sm={12} md={8} key={i}>
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <Card
+                  hoverable
+                  cover={<img src={g.img} alt={g.title} style={{ height: 200, objectFit: "cover" }} />}
+                >
+                  <Card.Meta title={g.title} description={g.desc} />
+                </Card>
+              </motion.div>
+            </Col>
+          ))}
+        </Row>
+
+        <Row gutter={[40, 40]} style={{ marginTop: 60 }}>
           {/* Contact Form */}
-          <motion.div className="contact-form-section" variants={itemVariants}>
-            <div className="form-container">
-              <h2>Send us a message</h2>
-              
-              {submitMessage && (
-                <motion.div
-                  className="message success"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  {submitMessage}
-                </motion.div>
-              )}
-
-              <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-
-                <input
-                  type="text"
-                  name="subject"
-                  placeholder="Subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  required
-                />
-
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  rows="6"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                ></textarea>
-
-                <motion.button
-                  type="submit"
-                  className="submit-btn"
-                  disabled={isSubmitting}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="loading-spinner"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    'Send Message'
-                  )}
-                </motion.button>
-              </form>
-            </div>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div className="contact-info-section" variants={itemVariants}>
-            <h2>Get in Touch</h2>
-            <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
-
-            <div className="contact-info-grid">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  className="contact-info-item"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="info-icon">
-                    <i className={info.icon}></i>
-                  </div>
-                  <div className="info-content">
-                    <h4>{info.title}</h4>
-                    {info.link ? (
-                      <a href={info.link}>{info.value}</a>
-                    ) : (
-                      <p>{info.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="social-section">
-              <h3>Follow Us</h3>
-              <div className="social-links">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
+          <Col xs={24} md={14}>
+            <motion.div variants={itemVariants}>
+              <Card title="Send Us a Message" bordered={false}>
+                {submitMessage && (
+                  <motion.div
+                    style={{ marginBottom: 20, color: "green" }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
                   >
-                    <i className={social.icon}></i>
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
+                    {submitMessage}
+                  </motion.div>
+                )}
+                <Form layout="vertical" onFinish={handleSubmit}>
+                  <Row gutter={16}>
+                    <Col xs={24} sm={12}>
+                      <Form.Item name="name" rules={[{ required: true, message: "Name is required" }]}>
+                        <Input placeholder="Your Name" />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                      <Form.Item
+                        name="email"
+                        rules={[
+                          { required: true, message: "Email is required" },
+                          { type: "email", message: "Enter a valid email" }
+                        ]}
+                      >
+                        <Input placeholder="Your Email" />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Form.Item name="subject" rules={[{ required: true }]}>
+                    <Input placeholder="Subject" />
+                  </Form.Item>
+                  <Form.Item
+                    name="message"
+                    rules={[{ required: true, message: "Message cannot be empty" }]}
+                  >
+                    <Input.TextArea placeholder="Your Message" rows={6} />
+                  </Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={isSubmitting}
+                    block
+                  >
+                    Send Message
+                  </Button>
+                </Form>
+              </Card>
+            </motion.div>
+          </Col>
+
+          {/* Contact Info */}
+          <Col xs={24} md={10}>
+            <motion.div variants={itemVariants}>
+              <Card title="Get in Touch" bordered={false}>
+                <Paragraph>
+                  We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </Paragraph>
+                <Space direction="vertical" style={{ width: "100%" }}>
+                  {contactInfo.map((info, idx) => (
+                    <motion.div key={idx} whileHover={{ scale: 1.02 }}>
+                      <Space>
+                        <Avatar
+                          style={{
+                            background: "linear-gradient(135deg,#007BFF,#0056b3)"
+                          }}
+                          icon={info.icon}
+                        />
+                        <div>
+                          <Text strong>{info.title}</Text>
+                          <br />
+                          {info.link ? (
+                            <a href={info.link}>{info.value}</a>
+                          ) : (
+                            <Text>{info.value}</Text>
+                          )}
+                        </div>
+                      </Space>
+                    </motion.div>
+                  ))}
+                </Space>
+
+                <div style={{ marginTop: 30 }}>
+                  <Title level={4}>Follow Us</Title>
+                  <Space>
+                    {socialLinks.map((s, i) => (
+                      <motion.a
+                        key={i}
+                        href={s.url}
+                        target="_blank"
+                        whileHover={{ scale: 1.2 }}
+                        style={{
+                          fontSize: 24,
+                          color: "#007BFF"
+                        }}
+                      >
+                        {s.icon}
+                      </motion.a>
+                    ))}
+                  </Space>
+                </div>
+              </Card>
+            </motion.div>
+          </Col>
+        </Row>
       </motion.div>
-
-      <style jsx>{`
-        .contact-container {
-          display: grid;
-          grid-template-columns: 1fr 400px;
-          gap: 40px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
-        .contact-form-section h2,
-        .contact-info-section h2 {
-          color: #333;
-          margin-bottom: 20px;
-          font-size: 1.8rem;
-        }
-
-        .contact-info-section {
-          background: rgba(255, 255, 255, 0.95);
-          padding: 40px;
-          border-radius: 15px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-          backdrop-filter: blur(10px);
-          height: fit-content;
-        }
-
-        .contact-info-section p {
-          color: #666;
-          line-height: 1.6;
-          margin-bottom: 30px;
-        }
-
-        .contact-info-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-          margin-bottom: 40px;
-        }
-
-        .contact-info-item {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 15px;
-          background: #f8f9fa;
-          border-radius: 10px;
-          transition: all 0.3s ease;
-        }
-
-        .contact-info-item:hover {
-          background: #e9ecef;
-        }
-
-        .info-icon {
-          width: 50px;
-          height: 50px;
-          background: linear-gradient(135deg, #007BFF, #0056b3);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 1.2rem;
-        }
-
-        .info-content h4 {
-          color: #333;
-          margin-bottom: 5px;
-          font-size: 1rem;
-        }
-
-        .info-content p,
-        .info-content a {
-          color: #666;
-          margin: 0;
-          text-decoration: none;
-          font-size: 0.9rem;
-        }
-
-        .info-content a:hover {
-          color: #007BFF;
-        }
-
-        .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 15px;
-        }
-
-        .submit-btn {
-          width: 100%;
-          padding: 15px;
-          background: linear-gradient(135deg, #007BFF, #0056b3);
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, #0056b3, #003d82);
-        }
-
-        .submit-btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        .social-section {
-          text-align: center;
-        }
-
-        .social-section h3 {
-          color: #333;
-          margin-bottom: 20px;
-        }
-
-        .social-links {
-          display: flex;
-          justify-content: center;
-          gap: 15px;
-        }
-
-        .social-link {
-          width: 50px;
-          height: 50px;
-          background: linear-gradient(135deg, #007BFF, #0056b3);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          text-decoration: none;
-          font-size: 1.2rem;
-          transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-          background: linear-gradient(135deg, #0056b3, #003d82);
-        }
-
-        @media (max-width: 768px) {
-          .contact-container {
-            grid-template-columns: 1fr;
-            gap: 30px;
-          }
-
-          .form-row {
-            grid-template-columns: 1fr;
-          }
-
-          .contact-info-section {
-            padding: 30px;
-          }
-        }
-      `}</style>
     </div>
   );
 };
 
-export default Contact; 
+export default Contact;

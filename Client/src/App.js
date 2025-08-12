@@ -18,20 +18,21 @@ import Settings from './pages/admin/Settings';
 import Members from './pages/admin/Members';
 import AdminEvents from './pages/admin/Events';
 import Donations from './pages/admin/Donations';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import ForgotPassword from './pages/ForgotPassword';
 import './styles/global/App.css';
 
-// Component to handle conditional rendering
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
-  // Apply different styles for admin routes
   React.useEffect(() => {
     const body = document.body;
     const root = document.getElementById('root');
     
     if (isAdminRoute) {
-      // Apply admin styles
+      // Admin pages styling
       body.className = 'admin-page-body';
       root.className = 'admin-page-root';
       body.style.background = '#f0f2f5';
@@ -41,21 +42,20 @@ const AppContent = () => {
       body.style.padding = '0';
       body.style.overflow = 'hidden';
     } else {
-      // Restore original styles for public pages
+      // Public pages (including Home) -> White background
       body.className = '';
       root.className = '';
-      body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+      body.style.background = '#ffffff'; // White page background
       body.style.backgroundAttachment = 'fixed';
       body.style.minHeight = '100vh';
       body.style.overflow = 'visible';
     }
 
-    // Cleanup function
     return () => {
       if (!isAdminRoute) {
         body.className = '';
         root.className = '';
-        body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        body.style.background = '#ffffff';
         body.style.backgroundAttachment = 'fixed';
         body.style.overflow = 'visible';
       }
@@ -63,60 +63,29 @@ const AppContent = () => {
   }, [isAdminRoute]);
 
   if (isAdminRoute) {
-    // Admin layout - full screen, no extra containers
     return (
-      <div 
-        className="admin-layout"
-        style={{ 
-          height: '100vh', 
-          overflow: 'hidden',
-          margin: 0,
-          padding: 0
-        }}
-      >
+      <div className="admin-layout" style={{ height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
         <Routes>
-          <Route path="/admin" element={
-            <AdminLayout>
-              <Dashboard />
-            </AdminLayout>
-          } />
-          <Route path="/admin/settings" element={
-            <AdminLayout>
-              <Settings />
-            </AdminLayout>
-          } />
-          <Route path="/admin/members" element={
-            <AdminLayout>
-              <Members />
-            </AdminLayout>
-          } />
-          <Route path="/admin/events" element={
-            <AdminLayout>
-              <AdminEvents />
-            </AdminLayout>
-          } />
-          <Route path="/admin/donations" element={
-            <AdminLayout>
-              <Donations />
-            </AdminLayout>
-          } />
+          <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
+          <Route path="/admin/settings" element={<AdminLayout><Settings /></AdminLayout>} />
+          <Route path="/admin/members" element={<AdminLayout><Members /></AdminLayout>} />
+          <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
+          <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />
         </Routes>
       </div>
     );
   }
 
-  // Public pages layout - original structure
+  // Public Pages layout (Home, About, etc.)
   return (
     <div className="App">
       <Navigation />
-      
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <main style={{ background: '#fff', minHeight: '100vh' }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/events" element={<Events />} />
@@ -125,8 +94,7 @@ const AppContent = () => {
           <Route path="/payment" element={<Payment />} />
           <Route path="/coupons" element={<Coupons />} />
         </Routes>
-      </motion.main>
-      
+      </main>
       <Footer />
     </div>
   );
@@ -140,4 +108,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

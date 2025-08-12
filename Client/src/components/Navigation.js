@@ -30,18 +30,13 @@ const Navigation = () => {
     { key: "/join", label: <Link to="/join">Join</Link> },
     { key: "/signin", label: <Link to="/signin">Sign In</Link> },
     { key: "/contact", label: <Link to="/contact">Contact</Link> },
-    { key: "/blog", label: <Link to="/blog">Blog</Link> },
     { key: "/events", label: <Link to="/events">Events</Link> },
-    { key: "/collaborations", label: <Link to="/collaborations">Collaborations</Link> },
-    { key: "/coupons", label: <Link to="/coupons">Coupons</Link> },
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
 
   ];
 
   const userNavItems = [
-    { key: "/events", label: <Link to="/events">Events</Link> },
-    { key: "/collaborations", label: <Link to="/collaborations">Collaborations</Link> },
-    { key: "/coupons", label: <Link to="/coupons">Coupons</Link> },
+    { key: "/events", label: <Link to="/events">Events</Link> },,
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
   ];
 

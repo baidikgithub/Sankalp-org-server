@@ -2,164 +2,65 @@ import React from 'react';
 import { Modal, Form, Input, Select, Button, Row, Col } from 'antd';
 import { UserAddOutlined, CloseOutlined } from '@ant-design/icons';
 
-const { Option } = Select;
-
-const AddMemberForm = ({ 
-  visible, 
-  onCancel, 
-  onSubmit, 
-  loading = false,
-  initialValues = null,
-  title = "Add New Member"
-}) => {
+const AddMemberForm = ({ visible, onCancel, onSubmit, loading, initialValues, title, compact = true }) => {
   const [form] = Form.useForm();
 
-  const handleSubmit = async (values) => {
-    try {
-      await onSubmit(values);
-      form.resetFields();
-    } catch (error) {
-      console.error('Form submission error:', error);
-    }
-  };
-
-  const handleCancel = () => {
+  const handleFinish = async values => {
+    await onSubmit(values);
     form.resetFields();
-    onCancel();
-  };
-
-  // Phone number validation
-  const validatePhone = (_, value) => {
-    if (!value) {
-      return Promise.reject(new Error('Please enter phone number'));
-    }
-    const phoneRegex = /^[\+]?[0-9\s\-\(\)]+$/;
-    if (!phoneRegex.test(value)) {
-      return Promise.reject(new Error('Please enter a valid phone number'));
-    }
-    return Promise.resolve();
   };
 
   return (
     <Modal
-      title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <UserAddOutlined />
-          {title}
-        </div>
-      }
+      title={<><UserAddOutlined /> {title}</>}
       open={visible}
-      onCancel={handleCancel}
+      onCancel={() => { form.resetFields(); onCancel(); }}
       footer={null}
-      width={600}
-      destroyOnClose
+      width={compact ? 500 : 600}
     >
       <Form
         form={form}
         layout="vertical"
-        onFinish={handleSubmit}
+        onFinish={handleFinish}
         initialValues={initialValues}
         requiredMark={false}
       >
-        <Row gutter={16}>
+        <Row gutter={8}>
           <Col span={12}>
-            <Form.Item
-              label="Full Name"
-              name="name"
-              rules={[
-                { required: true, message: 'Please enter the member name' },
-                { min: 2, message: 'Name must be at least 2 characters' },
-                { max: 50, message: 'Name must not exceed 50 characters' }
-              ]}
-            >
-              <Input 
-                placeholder="Enter full name"
-                size="large"
-              />
+            <Form.Item label="Full Name" name="name" rules={[{ required: true }]}>
+              <Input size={compact ? 'small' : 'large'} />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item
-              label="Email Address"
-              name="email"
-              rules={[
-                { required: true, message: 'Please enter email address' },
-                { type: 'email', message: 'Please enter a valid email address' }
-              ]}
-            >
-              <Input 
-                placeholder="Enter email address"
-                size="large"
-              />
+            <Form.Item label="Email" name="email" rules={[{ type: 'email' }]}>
+              <Input size={compact ? 'small' : 'large'} />
             </Form.Item>
           </Col>
         </Row>
 
-        <Row gutter={16}>
+        <Row gutter={8}>
           <Col span={12}>
-            <Form.Item
-              label="Phone Number"
-              name="phone"
-              rules={[
-                { validator: validatePhone }
-              ]}
-            >
-              <Input 
-                placeholder="Enter phone number"
-                size="large"
-              />
-            </Form.Item>
+            <Form.Item label="Phone" name="phone"><Input size={compact ? 'small' : 'large'} /></Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item
-              label="Role"
-              name="role"
-              rules={[
-                { required: true, message: 'Please select a role' }
-              ]}
-              initialValue="Member"
-            >
-              <Select 
-                placeholder="Select role"
-                size="large"
-              >
-                <Option value="Member">Member</Option>
-                <Option value="Volunteer">Volunteer</Option>
-                <Option value="Admin">Admin</Option>
+            <Form.Item label="Role" name="role" initialValue="Member">
+              <Select size={compact ? 'small' : 'large'}>
+                <Select.Option value="Member">Member</Select.Option>
+                <Select.Option value="Volunteer">Volunteer</Select.Option>
+                <Select.Option value="Admin">Admin</Select.Option>
               </Select>
             </Form.Item>
           </Col>
         </Row>
 
-        <Form.Item
-          label="Location"
-          name="location"
-          rules={[
-            { required: true, message: 'Please enter location' },
-            { min: 2, message: 'Location must be at least 2 characters' }
-          ]}
-        >
-          <Input 
-            placeholder="Enter location (City, State)"
-            size="large"
-          />
+        <Form.Item label="Location" name="location">
+          <Input size={compact ? 'small' : 'large'} />
         </Form.Item>
 
-        <Form.Item style={{ marginBottom: 0, textAlign: 'right' }}>
-          <Button 
-            onClick={handleCancel}
-            style={{ marginRight: 8 }}
-            icon={<CloseOutlined />}
-          >
-            Cancel
-          </Button>
-          <Button 
-            type="primary" 
-            htmlType="submit"
-            loading={loading}
-            icon={<UserAddOutlined />}
-          >
-            {initialValues ? 'Update Member' : 'Add Member'}
+        <Form.Item style={{ textAlign: 'right', marginBottom: 0 }}>
+          <Button onClick={onCancel} size={compact ? 'small' : 'large'} icon={<CloseOutlined />} style={{ marginRight: 6 }}>Cancel</Button>
+          <Button htmlType="submit" type="primary" loading={loading} size={compact ? 'small' : 'large'} icon={<UserAddOutlined />}>
+            {initialValues ? 'Update' : 'Add'}
           </Button>
         </Form.Item>
       </Form>
@@ -167,4 +68,4 @@ const AddMemberForm = ({
   );
 };
 
-export default AddMemberForm; 
+export default AddMemberForm;

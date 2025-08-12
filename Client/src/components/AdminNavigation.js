@@ -1,29 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Layout, 
-  Menu, 
-  Button, 
-  Avatar, 
-  Dropdown, 
-  Space, 
-  Typography 
-} from 'antd';
-import { 
-  DashboardOutlined, 
-  TeamOutlined, 
-  CalendarOutlined, 
-  DollarOutlined, 
-  SettingOutlined, 
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography } from 'antd';
+import {
+  DashboardOutlined,
+  TeamOutlined,
+  CalendarOutlined,
+  DollarOutlined,
+  SettingOutlined,
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 
-const { Sider, Header } = Layout;
+const { Sider, Content } = Layout; // ✅ Correct destructuring
 const { Text } = Typography;
 
 const AdminNavigation = ({ collapsed, onCollapse, children }) => {
@@ -31,61 +23,22 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
   const navigate = useNavigate();
 
   const menuItems = [
-    {
-      key: '/admin',
-      icon: <DashboardOutlined />,
-      label: 'Dashboard',
-      onClick: () => navigate('/admin')
-    },
-    {
-      key: '/admin/members',
-      icon: <TeamOutlined />,
-      label: 'Members',
-      onClick: () => navigate('/admin/members')
-    },
-    {
-      key: '/admin/events',
-      icon: <CalendarOutlined />,
-      label: 'Events',
-      onClick: () => navigate('/admin/events')
-    },
-    {
-      key: '/admin/donations',
-      icon: <DollarOutlined />,
-      label: 'Donations',
-      onClick: () => navigate('/admin/donations')
-    },
-    {
-      key: '/admin/settings',
-      icon: <SettingOutlined />,
-      label: 'Settings',
-      onClick: () => navigate('/admin/settings')
-    }
+    { key: '/admin', icon: <DashboardOutlined />, label: 'Dashboard', onClick: () => navigate('/admin') },
+    { key: '/admin/members', icon: <TeamOutlined />, label: 'Members', onClick: () => navigate('/admin/members') },
+    { key: '/admin/events', icon: <CalendarOutlined />, label: 'Events', onClick: () => navigate('/admin/events') },
+    { key: '/admin/donations', icon: <DollarOutlined />, label: 'Donations', onClick: () => navigate('/admin/donations') },
+    { key: '/admin/settings', icon: <SettingOutlined />, label: 'Settings', onClick: () => navigate('/admin/settings') },
   ];
 
   const profileMenuItems = [
-    {
-      key: 'profile',
-      icon: <UserOutlined />,
-      label: 'Profile'
-    },
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Logout',
-      onClick: () => {
-        // Handle logout logic here
-        console.log('Logout clicked');
-      }
-    }
+    { key: 'profile', icon: <UserOutlined />, label: 'Profile' },
+    { key: 'logout', icon: <LogoutOutlined />, label: 'Logout', onClick: () => console.log('Logout clicked') },
   ];
 
-  const handleBackToSite = () => {
-    navigate('/');
-  };
+  const handleBackToSite = () => navigate('/');
 
   return (
-    <Layout style={{ minHeight: '100vh', margin: 0, padding: 0 }}>
+    <Layout style={{ minHeight: '100vh' }}>
       {/* Sidebar */}
       <Sider
         trigger={null}
@@ -98,68 +51,55 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
           left: 0,
           top: 0,
           bottom: 0,
-          zIndex: 1000
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
         }}
         width={250}
         collapsedWidth={60}
       >
-        {/* Logo Section */}
+        {/* Toggle Button */}
+        <div style={{ padding: '10px', display: 'flex', justifyContent: collapsed ? 'center' : 'flex-end' }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={onCollapse}
+            style={{ color: 'white', fontSize: '18px', background: 'transparent' }}
+          />
+        </div>
+
+        {/* Logo */}
         <motion.div
           style={{
             height: '64px',
-            margin: '16px',
+            margin: '0 16px 16px',
             background: 'rgba(255, 255, 255, 0.1)',
             borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'flex-start',
             padding: collapsed ? '0' : '0 16px',
-            transition: 'all 0.3s'
+            transition: 'all 0.3s',
           }}
           whileHover={{ background: 'rgba(255, 255, 255, 0.2)' }}
         >
-          <img 
-            src="/logo.png" 
-            alt="Sankalp Youth" 
-            style={{ 
-              width: '32px', 
-              height: '32px', 
-              borderRadius: '50%' 
-            }} 
-          />
+          <img src="/logo.png" alt="Sankalp Youth" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
           {!collapsed && (
-            <Text 
-              style={{ 
-                color: 'white', 
-                marginLeft: '12px', 
-                fontWeight: 600,
-                fontSize: '16px'
-              }}
-            >
-              Sankalp Youth
-            </Text>
+            <Text style={{ color: 'white', marginLeft: '12px', fontWeight: 600, fontSize: '16px' }}>Sankalp Youth</Text>
           )}
         </motion.div>
 
-        {/* Navigation Menu */}
+        {/* Nav Menu */}
         <Menu
           theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
-          style={{
-            background: 'transparent',
-            border: 'none'
-          }}
+          style={{ background: 'transparent', border: 'none', flex: 1 }}
         />
 
-        {/* Back to Site Button */}
-        <div style={{ 
-          position: 'absolute', 
-          bottom: '16px', 
-          left: '16px', 
-          right: '16px' 
-        }}>
+        {/* Back to Site Button at bottom */}
+        <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
           <Button
             type="text"
             icon={<HomeOutlined />}
@@ -167,97 +107,33 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
             style={{
               color: 'white',
               width: '100%',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
               justifyContent: collapsed ? 'center' : 'flex-start',
               background: 'rgba(255, 255, 255, 0.1)',
-              border: 'none',
-              borderRadius: '6px'
+              borderRadius: '6px',
             }}
-            onMouseEnter={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.2)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)')}
           >
             {!collapsed && <span style={{ marginLeft: '8px' }}>Back to Site</span>}
           </Button>
         </div>
       </Sider>
 
-      {/* Main Layout */}
-      <Layout style={{ 
-        marginLeft: collapsed ? 60 : 250, 
-        transition: 'margin-left 0.2s',
-        minHeight: '100vh'
-      }}>
-        {/* Header */}
-        <Header
-          style={{
-            padding: '0 24px',
-            background: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            boxShadow: '0 1px 4px rgba(0,21,41,.08)',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100
-          }}
-        >
-          {/* Left side - Toggle button */}
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={onCollapse}
-            style={{
-              fontSize: '16px',
-              width: 40,
-              height: 40,
-            }}
-          />
-
-          {/* Right side - Profile */}
-          <Dropdown
-            menu={{ items: profileMenuItems }}
-            placement="bottomRight"
-            arrow
-          >
-            <Space style={{ cursor: 'pointer' }}>
-              <div style={{ textAlign: 'right', marginRight: '8px' }}>
-                <div style={{ 
-                  fontSize: '14px', 
-                  fontWeight: 600, 
-                  lineHeight: '20px' 
-                }}>
-                  Admin User
-                </div>
-                <div style={{ 
-                  fontSize: '12px', 
-                  color: '#666', 
-                  lineHeight: '16px' 
-                }}>
-                  Administrator
-                </div>
-              </div>
-              <Avatar 
-                size={40} 
-                icon={<UserOutlined />}
-                style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                }}
-              />
-            </Space>
-          </Dropdown>
-        </Header>
-
-        {/* Content */}
+      {/* Main Content */}
+      <Content
+        style={{
+          marginLeft: collapsed ? 60 : 250,
+          transition: 'margin-left 0.2s',
+          minHeight: '100vh',
+          background: '#f5f6fa',
+          overflowY: 'auto',
+          padding: 0,
+        }}
+      >
         {children}
-      </Layout>
+      </Content>
     </Layout>
   );
 };
 
-export default AdminNavigation; 
+export default AdminNavigation;

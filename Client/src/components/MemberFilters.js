@@ -2,41 +2,23 @@ import React from 'react';
 import { Row, Col, Input, Select, Button, Space } from 'antd';
 import { SearchOutlined, UserAddOutlined, ClearOutlined } from '@ant-design/icons';
 
-const { Option } = Select;
-
 const MemberFilters = ({
-  searchTerm,
-  onSearchChange,
-  statusFilter,
-  onStatusFilterChange,
-  roleFilter,
-  onRoleFilterChange,
-  onAddMember,
-  onClearFilters
+  searchTerm, onSearchChange, statusFilter, onStatusFilterChange, roleFilter, onRoleFilterChange, onAddMember, onClearFilters, compact = true
 }) => {
   const handleClearFilters = () => {
     onSearchChange('');
     onStatusFilterChange('all');
     onRoleFilterChange('all');
-    if (onClearFilters) {
-      onClearFilters();
-    }
+    if (onClearFilters) onClearFilters();
   };
-
-  const hasActiveFilters = searchTerm || statusFilter !== 'all' || roleFilter !== 'all';
+  const hasFilters = searchTerm || statusFilter !== 'all' || roleFilter !== 'all';
 
   return (
-    <div style={{ 
-      background: 'white', 
-      padding: '20px', 
-      borderRadius: '8px', 
-      marginBottom: '20px',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
-    }}>
-      <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} sm={24} md={12} lg={8} xl={6}>
+    <div style={{ background: 'white', padding: compact ? 8 : 20, borderRadius: 6, marginBottom: compact ? 12 : 20 }}>
+      <Row gutter={[8, 8]} align="middle">
+        <Col xs={24} sm={12} md={8}>
           <Input
-            size="large"
+            size={compact ? 'small' : 'large'}
             placeholder="Search members..."
             prefix={<SearchOutlined />}
             value={searchTerm}
@@ -44,71 +26,45 @@ const MemberFilters = ({
             allowClear
           />
         </Col>
-        
-        <Col xs={12} sm={8} md={6} lg={4} xl={3}>
-          <Select
-            size="large"
-            value={statusFilter}
-            onChange={onStatusFilterChange}
-            style={{ width: '100%' }}
-            placeholder="All Status"
-          >
-            <Option value="all">All Status</Option>
-            <Option value="active">Active</Option>
-            <Option value="inactive">Inactive</Option>
+
+        <Col xs={12} sm={6} md={4}>
+          <Select size={compact ? 'small' : 'large'} value={statusFilter} onChange={onStatusFilterChange} style={{ width: '100%' }}>
+            <Select.Option value="all">All Status</Select.Option>
+            <Select.Option value="active">Active</Select.Option>
+            <Select.Option value="inactive">Inactive</Select.Option>
           </Select>
         </Col>
-        
-        <Col xs={12} sm={8} md={6} lg={4} xl={3}>
-          <Select
-            size="large"
-            value={roleFilter}
-            onChange={onRoleFilterChange}
-            style={{ width: '100%' }}
-            placeholder="All Roles"
-          >
-            <Option value="all">All Roles</Option>
-            <Option value="Member">Member</Option>
-            <Option value="Volunteer">Volunteer</Option>
-            <Option value="Admin">Admin</Option>
+
+        <Col xs={12} sm={6} md={4}>
+          <Select size={compact ? 'small' : 'large'} value={roleFilter} onChange={onRoleFilterChange} style={{ width: '100%' }}>
+            <Select.Option value="all">All Roles</Select.Option>
+            <Select.Option value="Member">Member</Select.Option>
+            <Select.Option value="Volunteer">Volunteer</Select.Option>
+            <Select.Option value="Admin">Admin</Select.Option>
           </Select>
         </Col>
-        
-        <Col xs={24} sm={8} md={12} lg={8} xl={12}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            gap: '8px',
-            width: '100%'
-          }}>
-            <Space wrap>
-              {hasActiveFilters && (
-                <Button
-                  onClick={handleClearFilters}
-                  icon={<ClearOutlined />}
-                  size="large"
-                >
-                  Clear Filters
-                </Button>
-              )}
-              <Button
-                type="primary"
-                size="large"
-                icon={<UserAddOutlined />}
-                onClick={onAddMember}
-                style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  border: 'none'
-                }}
-              >
-                Add Member
+
+        <Col xs={24} sm={24} md={8} style={{ textAlign: 'right' }}>
+          <Space size={compact ? 4 : 8}>
+            {hasFilters && (
+              <Button size={compact ? 'small' : 'large'} onClick={handleClearFilters} icon={<ClearOutlined />}>
+                Clear
               </Button>
-            </Space>
-          </div>
+            )}
+            <Button
+              type="primary"
+              size={compact ? 'small' : 'large'}
+              icon={<UserAddOutlined />}
+              onClick={onAddMember}
+              style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', border: 'none' }}
+            >
+              Add
+            </Button>
+          </Space>
         </Col>
       </Row>
     </div>
   );
 };
 
-export default MemberFilters; 
+export default MemberFilters;

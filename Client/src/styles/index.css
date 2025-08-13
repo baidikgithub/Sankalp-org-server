@@ -4,16 +4,3 @@
 @import './global/index.css';
 @import './global/App.css';
 
-/* Component Styles */
-@import './components/Navigation.css';
-@import './components/Footer.css';
-
-/* Page Styles */
-@import './pages/Home.css';
-@import './pages/About.css';
-@import './pages/Contact.css';
-@import './pages/Events.css';
-@import './pages/JoinUs.css';
-@import './pages/Payment.css';
-@import './pages/Coupons.css';
-@import './pages/Collaborations.css'; 

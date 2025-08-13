@@ -6,7 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const membersRoutes = require('./routes/membersRoutes');
-
+const donationRoutes = require('./routes/donationRoutes');
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/volunteers', volunteerRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/members', membersRoutes);
+app.use('/api/donations', donationRoutes);
 
 
 app.listen(PORT, () => {

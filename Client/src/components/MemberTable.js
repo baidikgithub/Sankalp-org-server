@@ -30,7 +30,7 @@ const MemberTable = ({ members, onStatusChange, onEdit, size = 'small' }) => {
     }
   ];
 
-  return <Table size={size} columns={columns} dataSource={members} rowKey="id" pagination={{ pageSize: 10 }} />;
+  return <Table size={size} columns={columns} dataSource={members} rowKey="id" />;
 };
 
 export default MemberTable;

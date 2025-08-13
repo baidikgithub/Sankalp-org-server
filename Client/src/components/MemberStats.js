@@ -24,7 +24,7 @@ const MemberStats = ({ members = [], compact = true }) => {
       {statsData.map((stat, idx) => (
         <Col xs={12} sm={12} md={6} key={idx}>
           <Card
-            style={{ borderRadius: 6 }}
+            style={{ borderRadius: 6}}
             bodyStyle={{ padding: compact ? 8 : 20 }}
             hoverable
           >

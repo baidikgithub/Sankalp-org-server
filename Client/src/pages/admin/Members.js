@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message, Space, Typography, Card } from 'antd';
 import { motion } from 'framer-motion';
 import MemberTable from '../../components/MemberTable';
 import AddMemberForm from '../../components/AddMemberForm';
 import MemberFilters from '../../components/MemberFilters';
 import MemberStats from '../../components/MemberStats';
-
+import axios from 'axios';
 const { Title } = Typography;
 
 const containerVariants = {
@@ -18,13 +18,7 @@ const containerVariants = {
 };
 
 const Members = () => {
-  const [members, setMembers] = useState([
-    { id: 1, name: 'Rahul Kumar', email: 'rahul.kumar@email.com', phone: '+91 98765 43210', joinDate: '2023-01-15', status: 'active', role: 'Volunteer', location: 'Mumbai, Maharashtra' },
-    { id: 2, name: 'Priya Sharma', email: 'priya.sharma@email.com', phone: '+91 87654 32109', joinDate: '2023-02-20', status: 'active', role: 'Member', location: 'Delhi, NCR' },
-    { id: 3, name: 'Amit Patel', email: 'amit.patel@email.com', phone: '+91 76543 21098', joinDate: '2023-03-10', status: 'inactive', role: 'Volunteer', location: 'Bangalore, Karnataka' },
-    { id: 4, name: 'Neha Singh', email: 'neha.singh@email.com', phone: '+91 65432 10987', joinDate: '2023-04-05', status: 'active', role: 'Member', location: 'Chennai, Tamil Nadu' },
-  ]);
-
+  const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [roleFilter, setRoleFilter] = useState('all');
@@ -33,6 +27,19 @@ const Members = () => {
   const [editingMember, setEditingMember] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
+  const fetchMembers = async () => {
+    try {
+      const res = await axios.get('http://localhost:5001/api/members');
+      setMembers(res.data);
+    } catch (err) {
+      message.error("Failed to fetch members.");
+    }
+  };
+
   const filteredMembers = members.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -40,7 +47,7 @@ const Members = () => {
     const matchesStatus = statusFilter === 'all' || member.status === statusFilter;
     const matchesRole = roleFilter === 'all' || member.role === roleFilter;
     return matchesSearch && matchesStatus && matchesRole;
-  });
+  }); 
 
   const handleAddMember = async (values) => {
     setLoading(true);
@@ -84,18 +91,17 @@ const Members = () => {
   return (
     <div style={{  padding: '0 0px 0px', marginTop: 0 }}>
       
-      <Space direction="vertical" size={12} style={{ width: '100%', marginTop: 0 }}>
+      <Space direction="vertical" size={12} style={{ width: '100%', marginTop: 0, border: 'none' }}>
         
         {/* Stats */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <Card style={{ borderRadius: 0, marginBottom: 0 }} bodyStyle={{ padding: 12 }}>
+          <Card style={{ borderRadius: 0, marginBottom: 0, border: 'none'}} bodyStyle={{ padding: 12 }}>
             <MemberStats members={members} compact />
           </Card>
         </motion.div>
 
         {/* Filters */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <Card style={{ borderRadius: 6, marginBottom: 0 }} bodyStyle={{ padding: 12 }}>
             <MemberFilters
               searchTerm={searchTerm}
               onSearchChange={setSearchTerm}
@@ -106,19 +112,16 @@ const Members = () => {
               onAddMember={() => setShowAddForm(true)}
               compact
             />
-          </Card>
         </motion.div>
 
         {/* Table */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <Card style={{ borderRadius: 6, overflow: 'hidden', marginBottom: 0 }} bodyStyle={{ padding: 0 }}>
-            <MemberTable
+            <MemberTable  
               members={filteredMembers}
               onStatusChange={handleStatusChange}
               onEdit={setEditingMember}
               size="small"
             />
-          </Card>
         </motion.div>
 
       </Space>

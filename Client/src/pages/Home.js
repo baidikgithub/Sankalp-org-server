@@ -21,7 +21,7 @@ const Home = () => {
   const [input, setInput] = useState("");
 
   const whatsappLink = "https://wa.me/1234567890";
-
+  
   const handleSend = () => {
     if (!input.trim()) return;
     setMessages([...messages, { from: "user", text: input }]);

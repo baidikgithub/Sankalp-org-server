@@ -185,7 +185,7 @@ const Donations = () => {
 
   const columns = [
     {
-      title: 'Donor',
+      title: <span style={{ fontSize: '12px' }}>Donor</span>,
       dataIndex: 'donorName',
       key: 'donorName',
       render: (text, record) => (
@@ -197,59 +197,37 @@ const Donations = () => {
       sorter: (a, b) => a.donorName.localeCompare(b.donorName),
     },
     {
-      title: 'Amount',
+      title: <span style={{ fontSize: '12px' }}>Amount</span>,
       dataIndex: 'amount',
       key: 'amount',
       render: (amount, record) => (
-        <Text strong style={{ color: '#52c41a', fontSize: '16px' }}>
+        <Text strong style={{ color: '#52c41a', fontSize: '12px' }}>
           {formatCurrency(amount, record.currency)}
         </Text>
       ),
       sorter: (a, b) => a.amount - b.amount,
     },
     {
-      title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
-      render: (category) => (
-        <Tag color={getCategoryColor(category)}>{category}</Tag>
-      ),
-      filters: [
-        { text: 'General Donation', value: 'General Donation' },
-        { text: 'Education Fund', value: 'Education Fund' },
-        { text: 'Health Fund', value: 'Health Fund' },
-        { text: 'Corporate Donation', value: 'Corporate Donation' },
-      ],
-      onFilter: (value, record) => record.category === value,
-    },
-    {
-      title: 'Payment Method',
+      title: <span style={{ fontSize: '12px' }}>Payment Method</span>,
       dataIndex: 'paymentMethod',
       key: 'paymentMethod',
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status) => (
-        <Tag color={getStatusColor(status)}>{status.toUpperCase()}</Tag>
+      render: (text) => (
+        <Text style={{ fontSize: '12px' }}>{text}</Text>
       ),
-      filters: [
-        { text: 'Completed', value: 'completed' },
-        { text: 'Pending', value: 'pending' },
-        { text: 'Failed', value: 'failed' },
-      ],
-      onFilter: (value, record) => record.status === value,
     },
     {
-      title: 'Date',
+      title: <span style={{ fontSize: '12px' }}>Date</span>,
       dataIndex: 'date',
       key: 'date',
-      render: (date) => new Date(date).toLocaleDateString(),
+      render: (text, date) => (
+        <Text style={{ fontSize: '12px' }}>
+          {new Date(date).toLocaleDateString()}
+        </Text>
+      ),
       sorter: (a, b) => new Date(a.date) - new Date(b.date),
     },
     {
-      title: 'Transaction ID',
+      title: <span style={{ fontSize: '12px' }}>Transaction ID</span>,
       dataIndex: 'transactionId',
       key: 'transactionId',
       render: (id) => (
@@ -257,7 +235,7 @@ const Donations = () => {
       ),
     },
     {
-      title: 'Actions',
+      title: <span style={{ fontSize: '12px' }}>Actions</span>,
       key: 'actions',
       render: (_, record) => (
         <Space>
@@ -276,17 +254,6 @@ const Donations = () => {
               icon={<EditOutlined />}
             />
           </Tooltip>
-          {record.status === 'pending' && (
-            <Tooltip title="Approve">
-              <Button 
-                type="primary" 
-                size="small" 
-                icon={<CheckOutlined />}
-                style={{ backgroundColor: '#52c41a' }}
-                onClick={() => handleApproveDonation(record.id)}
-              />
-            </Tooltip>
-          )}
         </Space>
       ),
     },
@@ -294,16 +261,6 @@ const Donations = () => {
 
     return (
     <div>
-      {/* Page Header */}
-      <div style={{ marginBottom: '24px' }}>
-        <Title level={2} style={{ marginBottom: '8px', color: '#1890ff' }}>
-          Donations Management
-        </Title>
-        <Text type="secondary" style={{ fontSize: '16px' }}>
-          Track and manage all donations received by the organization
-        </Text>
-      </div>
-
       {/* Statistics Cards */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -357,7 +314,7 @@ const Donations = () => {
       </motion.div>
 
       {/* Controls */}
-      <Card style={{ marginBottom: '24px' }}>
+      <Card style={{ marginBottom: '2px', border: "none" }}>
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <Row gutter={[16, 16]} align="middle">
             <Col xs={24} sm={24} md={8}>
@@ -418,21 +375,14 @@ const Donations = () => {
       </Card>
 
       {/* Donations Table */}
-      <Card>
         <Table
+        style={{ border: "none"}}
           columns={columns}
           dataSource={filteredDonations}
           rowKey="id"
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => 
-              `${range[0]}-${range[1]} of ${total} donations`,
-          }}
-          scroll={{ x: 1200 }}
+          size='small'
+
         />
-      </Card>
 
       {/* Donation Details Drawer */}
       <Drawer

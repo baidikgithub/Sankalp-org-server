@@ -12,7 +12,6 @@ import Payment from './pages/Payment';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
-import Settings from './pages/admin/Settings';
 import Members from './pages/admin/Members';
 import AdminEvents from './pages/admin/Events';
 import Donations from './pages/admin/Donations';
@@ -65,7 +64,6 @@ const AppContent = () => {
       <div className="admin-layout" style={{ height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
         <Routes>
           <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
-          <Route path="/admin/settings" element={<AdminLayout><Settings /></AdminLayout>} />
           <Route path="/admin/members" element={<AdminLayout><Members /></AdminLayout>} />
           <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />

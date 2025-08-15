@@ -5,7 +5,7 @@ import HeroCarousel from "../components/HeroCarousel";
 import ImpactSection from "../components/ImpactSection";
 import ProgrammesSection from "../components/ProgrammesSection";
 import FinalCTA from "../components/FinalCTA";
-import { heroImages, impactMetrics, programmes } from "../config/home";
+import { heroImages, impactMetrics, programmes } from "../constants/home";
 import WhatsAppFloatButton from "../components/WhatsAppFloatButton";
 import ChatToggleButton from "../components/ChatToggleButton";
 

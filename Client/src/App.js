@@ -19,7 +19,8 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import './styles/global/App.css';
-
+import AdminContactMessages from './pages/admin/contact';
+import AdminUsers from './pages/admin/users';
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -67,6 +68,9 @@ const AppContent = () => {
           <Route path="/admin/members" element={<AdminLayout><Members /></AdminLayout>} />
           <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />
+          <Route path="/admin/contact" element={<AdminLayout><AdminContactMessages /></AdminLayout>} />
+          <Route path="/admin/users" element={<AdminLayout><AdminUsers /></AdminLayout>} />
+          {/* Add more admin routes as needed */}
         </Routes>
       </div>
     );

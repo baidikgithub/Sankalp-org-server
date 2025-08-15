@@ -4,6 +4,6 @@ const contactController = require("../controllers/contactController");
 
 // Route to handle contact form submission
 router.post("/submit", contactController.submitContactForm);    
-
+router.get("/", contactController.getContacts);
 // Export the router
 module.exports = router;

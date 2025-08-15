@@ -5,17 +5,11 @@ import DonationsStatsCards from '../../components/DonationsStatsCards';
 import DonationsFilters from '../../components/DonationsFilters';
 import DonationsTable from '../../components/DonationsTable';
 import DonationDetailsDrawer from '../../components/DonationDetailsDrawer';
-
+import axios from 'axios';
 const { Text } = Typography;
 
 const DonationsPage = () => {
-  const [donations, setDonations] = useState([
-    { id: 1, donorName: 'Rahul Kumar', email: 'rahul.kumar@email.com', amount: 5000, currency: 'INR', paymentMethod: 'Online Transfer', status: 'completed', date: '2024-02-15', category: 'General Donation', message: 'Happy to support the cause!', transactionId: 'TXN123456789' },
-    { id: 2, donorName: 'Priya Sharma', email: 'priya.sharma@email.com', amount: 2500, currency: 'INR', paymentMethod: 'Credit Card', status: 'completed', date: '2024-02-14', category: 'Education Fund', message: 'For children\'s education', transactionId: 'TXN123456790' },
-    { id: 3, donorName: 'Amit Patel', email: 'amit.patel@email.com', amount: 10000, currency: 'INR', paymentMethod: 'UPI', status: 'pending', date: '2024-02-13', category: 'Health Fund', message: 'Supporting healthcare initiatives', transactionId: 'TXN123456791' },
-    { id: 4, donorName: 'Neha Singh', email: 'neha.singh@email.com', amount: 1500, currency: 'INR', paymentMethod: 'Debit Card', status: 'failed', date: '2024-02-12', category: 'General Donation', message: '', transactionId: 'TXN123456792' },
-    { id: 5, donorName: 'Corporate XYZ Ltd', email: 'donations@xyzcorp.com', amount: 50000, currency: 'INR', paymentMethod: 'Bank Transfer', status: 'completed', date: '2024-02-10', category: 'Corporate Donation', message: 'Corporate social responsibility initiative', transactionId: 'TXN123456793' }
-  ]);
+  const [donations, setDonations] = useState([]);
 
   const [filteredDonations, setFilteredDonations] = useState(donations);
   const [searchText, setSearchText] = useState('');
@@ -25,7 +19,21 @@ const DonationsPage = () => {
   const [selectedDonation, setSelectedDonation] = useState(null);
   const [drawerVisible, setDrawerVisible] = useState(false);
 
-  const formatCurrency = (amount, currency) => 
+
+  useEffect(() => {
+    fetchDonations();
+  }, []);
+
+  const fetchDonations = async () => {
+    try {
+      const res = await axios.get('http://localhost:5001/api/donations');
+      setDonations(res.data);
+    } catch (err) {
+      message.error("Failed to fetch members.");
+    }
+  };
+
+  const formatCurrency = (amount, currency) =>
     new Intl.NumberFormat('en-IN', { style: 'currency', currency }).format(amount);
 
   const getStatusColor = (status) => {

@@ -46,13 +46,29 @@ const Contact = () => {
   ];
 
   // Functions
-  const handleSubmit = (values) => {
+  const handleSubmit =  async (values) => {
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitMessage("Thank you! We’ll get back to you soon.");
-      setTimeout(() => setSubmitMessage(""), 5000);
-    }, 1500);
+    setSubmitMessage("");
+    try {
+      const response = await fetch("http://localhost:5001/api/contact/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(values)
+      });
+      if (!response.ok) {
+        throw new Error('Error: ${response.status}'); 
+      } 
+      const data = await response.json();
+      console.log("Form submitted successfully:", data);
+      setSubmitMessage("Thank you for contacting us! We will get back to you soon.");
+      console.log("Response:", data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitMessage("There was an error submitting your message. Please try again later.");
+    }
+    setIsSubmitting(false);
   };
 
   return (

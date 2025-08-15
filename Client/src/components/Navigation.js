@@ -36,7 +36,7 @@ const Navigation = () => {
   ];
 
   const userNavItems = [
-    { key: "/events", label: <Link to="/events">Events</Link> },,
+    { key: "/events", label: <Link to="/events">Events</Link> }, ,
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
   ];
 
@@ -96,12 +96,21 @@ const Navigation = () => {
         className="mobile-menu-btn"
         icon={<MenuOutlined />}
         onClick={toggleMenu}
-        // style={{ display: "none" }} Remove this inline style
+      // style={{ display: "none" }} Remove this inline style
       />
 
       {/* Drawer for Mobile */}
       <Drawer
-        title="Navigation"
+        title={
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <img
+              src="/logo.png"
+              alt="Sankalp Youth Organisation Logo"
+              style={{ height: 32 }}
+            />
+            Sankalp Youth Organisation
+          </span>
+        }
         placement="right"
         onClose={closeMenu}
         open={isMenuOpen}

@@ -12,6 +12,7 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
   LogoutOutlined,
+  MessageOutlined,
 } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 
@@ -27,6 +28,8 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
     { key: '/admin/members', icon: <TeamOutlined />, label: 'Members', onClick: () => navigate('/admin/members') },
     { key: '/admin/events', icon: <CalendarOutlined />, label: 'Events', onClick: () => navigate('/admin/events') },
     { key: '/admin/donations', icon: <DollarOutlined />, label: 'Donations', onClick: () => navigate('/admin/donations') },
+    { key: '/admin/users', icon: <SettingOutlined />, label: 'Users', onClick: () => navigate('/admin/users') },
+    { key: '/adimin/contact', icon: <MessageOutlined />, label: 'Contacts', onClick: () => navigate('/admin/contact') },
   ];
 
   const profileMenuItems = [

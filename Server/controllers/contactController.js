@@ -21,3 +21,16 @@ exports.submitContactForm = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+// @desc Get all contact messages
+// @route GET /api/contacts
+// @access Public 
+exports.getContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    return res.status(200).json(contacts);
+  } catch (error) {
+    console.error('Error fetching contacts:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

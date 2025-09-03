@@ -45,11 +45,6 @@ const Dashboard = () => {
       value: 12,
       icon: <CalendarOutlined style={{ color: "#FFC107" }} />,
     },
-    {
-      title: "Pending Requests",
-      value: 23,
-      icon: <HourglassOutlined style={{ color: "#DC3545" }} />,
-    },
   ]);
 
   // Recent Activities data

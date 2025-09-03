@@ -7,8 +7,7 @@ const Volunteer = require('../models/volunteer');
 exports.registerVolunteer = async (req, res) => {
   try {
     const {
-      firstName,
-      lastName,
+      name,
       email,
       phone,
       age,
@@ -22,9 +21,7 @@ exports.registerVolunteer = async (req, res) => {
 
     // Basic validation
     if (
-      !firstName || !lastName || !email || !phone ||
-      !age || !occupation || !interests || interests.length === 0 ||
-      !availability || !motivation
+      !name || !email || !phone
     ) {
       return res.status(400).json({ message: 'Please fill all required fields.' });
     }
@@ -37,11 +34,12 @@ exports.registerVolunteer = async (req, res) => {
 
     // Create new volunteer
     const newVolunteer = new Volunteer({
-      firstName,
-      lastName,
+      name,
       email,
       phone,
       age,
+      location: req.body.location || 'Not specified', // Optional field
+      role: req.body.role || 'Volunteer', // Default role
       occupation,
       interests,
       availability,
@@ -62,3 +60,16 @@ exports.registerVolunteer = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+// @desc Get all volunteers
+// @route GET /api/volunteers
+// @access Public
+exports.getVolunteers = async (req, res) => {
+  try {
+    const volunteers = await Volunteer.find().sort({ joinDate: -1 });
+    res.status(200).json(volunteers);
+  } catch (error) {
+    console.error('Error fetching volunteers:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+}

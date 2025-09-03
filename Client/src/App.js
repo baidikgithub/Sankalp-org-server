@@ -12,7 +12,7 @@ import Payment from './pages/Payment';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
-import Members from './pages/admin/Members';
+import Volunteers from './pages/admin/Volunteers';
 import AdminEvents from './pages/admin/Events';
 import Donations from './pages/admin/Donations';
 import SignIn from './pages/SignIn';
@@ -20,7 +20,7 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import './styles/global/App.css';
 import AdminContactMessages from './pages/admin/contact';
-import AdminUsers from './pages/admin/users';
+import AdminUsers from './pages/admin/Users';
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -65,7 +65,7 @@ const AppContent = () => {
       <div className="admin-layout" style={{ height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
         <Routes>
           <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
-          <Route path="/admin/members" element={<AdminLayout><Members /></AdminLayout>} />
+          <Route path="/admin/volunteers" element={<AdminLayout><Volunteers /></AdminLayout>} />
           <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />
           <Route path="/admin/contact" element={<AdminLayout><AdminContactMessages /></AdminLayout>} />

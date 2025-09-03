@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { message, Space, Typography, Card } from 'antd';
 import { motion } from 'framer-motion';
 import MemberTable from '../../components/MemberTable';
-import AddMemberForm from '../../components/AddMemberForm';
+import AddVolunteerForm from '../../components/AddVolunteerForm';
 import MemberFilters from '../../components/MemberFilters';
 import MemberStats from '../../components/MemberStats';
 import axios from 'axios';
@@ -10,8 +10,8 @@ const { Title } = Typography;
 
 const containerVariants = {
   hidden: { opacity: 0, y: 12 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.4, ease: 'easeOut' }
   }
@@ -22,10 +22,11 @@ const Members = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [roleFilter, setRoleFilter] = useState('all');
-  
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+
 
   useEffect(() => {
     fetchMembers();
@@ -33,21 +34,48 @@ const Members = () => {
 
   const fetchMembers = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/members');
+      console.log("Fetching members...");
+      const res = await axios.get('http://localhost:5001/api/volunteers');
       setMembers(res.data);
     } catch (err) {
       message.error("Failed to fetch members.");
     }
   };
+  const onFinish = (values) => {
+    setLoading(true);
+    console.log("Form Submitted:", values); // 🔥 send to API here
+    setTimeout(() => {
+      setLoading(false);
+      message.success("Thank you for joining us! We will contact you soon.");
+      setVisible(false);
+    }, 2000);
+  };
+  const handleSubmit = async (values) => {
+    try {
+      console.log("Form Submitted:", values);
+
+      const response = await axios.post("http://localhost:5001/api/volunteers", values);
+
+      console.log("Success:", response.data);
+      alert("Volunteer registered successfully!");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Something went wrong!");
+    }
+  };
 
   const filteredMembers = members.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          member.phone.includes(searchTerm);
+    const matchesSearch =
+      (member?.name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (member?.email?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+      (member?.phone || "").includes(searchTerm);
+
     const matchesStatus = statusFilter === 'all' || member.status === statusFilter;
     const matchesRole = roleFilter === 'all' || member.role === roleFilter;
+
     return matchesSearch && matchesStatus && matchesRole;
-  }); 
+  });
+
 
   const handleAddMember = async (values) => {
     setLoading(true);
@@ -63,6 +91,16 @@ const Members = () => {
       setLoading(false);
     }
   };
+
+  const interestOptions = [
+    "Teaching",
+    "Healthcare",
+    "Animal Care",
+    "Environment",
+    "Fundraising",
+    "Event Management",
+    "Technical Support",
+  ];
 
   const handleEditMember = async (values) => {
     setLoading(true);
@@ -89,63 +127,63 @@ const Members = () => {
   };
 
   return (
-    <div style={{  padding: '0 0px 0px', marginTop: 0 }}>
-      
+    <div style={{ padding: '0 0px 0px', marginTop: 0 }}>
+
       <Space direction="vertical" size={12} style={{ width: '100%', marginTop: 0, border: 'none' }}>
-        
+
         {/* Stats */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <Card style={{ borderRadius: 0, marginBottom: 0, border: 'none'}} bodyStyle={{ padding: 12 }}>
+          <Card style={{ borderRadius: 0, marginBottom: 0, border: 'none' }} bodyStyle={{ padding: 12 }}>
             <MemberStats members={members} compact />
           </Card>
         </motion.div>
 
         {/* Filters */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-            <MemberFilters
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              statusFilter={statusFilter}
-              onStatusFilterChange={setStatusFilter}
-              roleFilter={roleFilter}
-              onRoleFilterChange={setRoleFilter}
-              onAddMember={() => setShowAddForm(true)}
-              compact
-            />
+          <MemberFilters
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            statusFilter={statusFilter}
+            onStatusFilterChange={setStatusFilter}
+            roleFilter={roleFilter}
+            onRoleFilterChange={setRoleFilter}
+            onAddMember={() => setShowAddForm(true)}
+            compact
+          />
         </motion.div>
 
         {/* Table */}
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-            <MemberTable  
-              members={filteredMembers}
-              onStatusChange={handleStatusChange}
-              onEdit={setEditingMember}
-              size="small"
-            />
+          <MemberTable
+            members={filteredMembers}
+            onStatusChange={handleStatusChange}
+            onEdit={setEditingMember}
+            size="small"
+          />
         </motion.div>
 
       </Space>
 
       {/* Add Member Modal */}
-      <AddMemberForm
+      {/* Add Member Modal */}
+      <AddVolunteerForm
         visible={showAddForm}
-        onCancel={handleFormCancel}
-        onSubmit={handleAddMember}
+        onCancel={() => setShowAddForm(false)}
+        onFinish={handleSubmit}
         loading={loading}
-        title="Add New Member"
-        compact
+        interestOptions={interestOptions}
       />
 
       {/* Edit Member Modal */}
-      <AddMemberForm
+      <AddVolunteerForm
         visible={!!editingMember}
         onCancel={handleFormCancel}
-        onSubmit={handleEditMember}
+        onFinish={handleEditMember}   // ✅ FIXED
         loading={loading}
-        initialValues={editingMember}
-        title="Edit Member"
-        compact
+        interestOptions={interestOptions}
+        initialValues={editingMember} // ✅ FIXED
       />
+
     </div>
   );
 };

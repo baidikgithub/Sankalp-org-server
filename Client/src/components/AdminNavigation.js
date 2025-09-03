@@ -25,17 +25,13 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
 
   const menuItems = [
     { key: '/admin', icon: <DashboardOutlined />, label: 'Dashboard', onClick: () => navigate('/admin') },
-    { key: '/admin/members', icon: <TeamOutlined />, label: 'Members', onClick: () => navigate('/admin/members') },
+    { key: '/admin/volunteers', icon: <TeamOutlined />, label: 'Volunteers', onClick: () => navigate('/admin/volunteers') },
     { key: '/admin/events', icon: <CalendarOutlined />, label: 'Events', onClick: () => navigate('/admin/events') },
     { key: '/admin/donations', icon: <DollarOutlined />, label: 'Donations', onClick: () => navigate('/admin/donations') },
     { key: '/admin/users', icon: <SettingOutlined />, label: 'Users', onClick: () => navigate('/admin/users') },
     { key: '/adimin/contact', icon: <MessageOutlined />, label: 'Contacts', onClick: () => navigate('/admin/contact') },
   ];
 
-  const profileMenuItems = [
-    { key: 'profile', icon: <UserOutlined />, label: 'Profile' },
-    { key: 'logout', icon: <LogoutOutlined />, label: 'Logout', onClick: () => console.log('Logout clicked') },
-  ];
 
   const handleBackToSite = () => navigate('/');
 

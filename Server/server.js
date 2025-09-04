@@ -8,6 +8,7 @@ const contactRoutes = require('./routes/contactRoutes');
 const membersRoutes = require('./routes/membersRoutes');
 const donationRoutes = require('./routes/donationRoutes');
 const usersRoutes = require('./routes/usersRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,7 +24,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/members', membersRoutes);
 app.use('/api/donations', donationRoutes);
 app.use('/api/users', usersRoutes);
-
+app.use('/api/dashboard', dashboardRoutes);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

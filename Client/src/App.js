@@ -64,7 +64,8 @@ const AppContent = () => {
     return (
       <div className="admin-layout" style={{ height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
         <Routes>
-          <Route path="/admin" element={<AdminLayout><Dashboard /></AdminLayout>} />
+          <Route path="/admin" element={<SignIn />} />
+          <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path="/admin/volunteers" element={<AdminLayout><Volunteers /></AdminLayout>} />
           <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />

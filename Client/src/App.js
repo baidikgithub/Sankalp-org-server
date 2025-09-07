@@ -17,6 +17,7 @@ import AdminEvents from './pages/admin/Events';
 import Donations from './pages/admin/Donations';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import AdminSignUp from './pages/admin/AdminSignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import './styles/global/App.css';
 import AdminContactMessages from './pages/admin/contact';
@@ -64,7 +65,7 @@ const AppContent = () => {
     return (
       <div className="admin-layout" style={{ height: '100vh', overflow: 'hidden', margin: 0, padding: 0 }}>
         <Routes>
-          <Route path="/admin" element={<SignIn />} />
+          <Route path="/admin" element={<AdminSignUp />} />
           <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path="/admin/volunteers" element={<AdminLayout><Volunteers /></AdminLayout>} />
           <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />

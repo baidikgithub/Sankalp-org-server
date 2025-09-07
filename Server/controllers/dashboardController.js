@@ -1,23 +1,18 @@
-const Member = require("../models/Member");
-const Volunteer = require("../models/Volunteer");
-const Donation = require("../models/Donation");
-const Project = require("../models/Project");
-const Event = require("../models/Event");
-const Activity = require("../models/Activity");
+const Member = require("../models/members.model");
+const Volunteer = require("../models/volunteer");
+const Donation = require("../models/donation.model");
+const Activity = require("../models/activity");
 
 // Get all dashboard stats
 exports.getDashboardStats = async (req, res) => {
   try {
     const totalMembers = await Member.countDocuments();
-    const activeProjects = await Project.countDocuments({ status: "active" });
+    // Projects model not present; default to 0
+    const activeProjects = 0;
     const totalDonations = await Donation.aggregate([{ $group: { _id: null, total: { $sum: "$amount" } } }]);
     const activeVolunteers = await Volunteer.countDocuments({ status: "active" });
-    const eventsThisMonth = await Event.countDocuments({
-      date: { 
-        $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1), 
-        $lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0) 
-      }
-    });
+    // Events model not present; default to 0
+    const eventsThisMonth = 0;
 
     res.json({
       totalMembers,

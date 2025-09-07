@@ -5,29 +5,13 @@ import { MailOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
-const ForgotPasswordForm = () => {
-  const [loading, setLoading] = useState(false);
-
-  const handleFinish = async (values) => {
-    setLoading(true);
-    try {
-      // TODO: Implement password reset logic here
-      console.log("Reset password for:", values.email);
-      // Simulate API request delay
-      await new Promise(resolve => setTimeout(resolve, 1200));
-    } catch (error) {
-      console.error("Password reset error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const ForgotPasswordForm = ({ onFinish, loading }) => {
   return (
     <div style={{ padding: "3rem 2.5rem" }}>
       <Title level={4} style={{ color: "#1a237e", marginBottom: 25 }}>
         Reset Password
       </Title>
-      <Form layout="vertical" onFinish={handleFinish} requiredMark="optional">
+      <Form layout="vertical" requiredMark="optional" onFinish={onFinish}>
         <Form.Item
           name="email"
           rules={[

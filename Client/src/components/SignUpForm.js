@@ -2,31 +2,20 @@
 import React, { useState } from "react";
 import { Typography, Form, Input, Button } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const { Title } = Typography;
 
 const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const handleFinish = (values) => {
-    setLoading(true);
-    console.log("Sign Up form values:", values);
-
-    // Simulate registration
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/signin");
-    }, 1200);
-  };
 
   return (
     <div style={{ padding: "3rem 2.5rem" }}>
       <Title level={4} style={{ color: "#1a237e", marginBottom: 25 }}>
         Sign Up
       </Title>
-      <Form layout="vertical" onFinish={handleFinish} requiredMark="optional">
+      <Form layout="vertical" requiredMark="optional">
         <Form.Item
           name="name"
           rules={[{ required: true, message: "Please enter your name" }]}

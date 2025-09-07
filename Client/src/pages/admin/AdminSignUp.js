@@ -3,22 +3,31 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-
+import axios from "axios";
 const { Title, Text } = Typography;
 
 const AdminSignUpPage= () => {
   const [loading, setLoading] = useState(false);
 
-  // Handle form submit
-  const handleFinish = (values) => {
+  const handleFinish = async (values) => {
     setLoading(true);
-    // MOCK: Replace with real API call
-    setTimeout(() => {
-      setLoading(false);
-      // Save auth, redirect, etc
-      localStorage.setItem("isLoggedIn", "true");
+    try {
+      const { data } = await axios.post("http://localhost:5001/api/admin/login", values);
+  
+      // Example: if your API returns a token
+      if (data.token) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", data.token);
+      }
+  
+      // Redirect after successful login
       window.location.href = "/admin/dashboard";
-    }, 1200);
+    } catch (error) {
+      console.error("Login error:", error);
+      alert(error.response?.data?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,18 +63,18 @@ const AdminSignUpPage= () => {
           style={{ marginTop: 16 }}
         >
           <Form.Item
-            name="email"
-            label="Email"
+            name="username"
+            label="Username"
             rules={[
-              { required: true, message: "Please enter your email" },
-              { type: "email", message: "Please enter a valid email" }
+              { required: true, message: "Please enter your username" },
+              { type: "username", message: "Please enter a valid username" }
             ]}
           >
             <Input
               prefix={<MailOutlined style={{ color: "#bfbfbf" }} />}
-              placeholder="you@example.com"
+                placeholder="username"
               size="large"
-              autoComplete="email"
+              // autoComplete="username"
             />
           </Form.Item>
           <Form.Item
@@ -80,9 +89,9 @@ const AdminSignUpPage= () => {
               autoComplete="current-password"
             />
           </Form.Item>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
+          {/* <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
             <a href="/forgot-password" style={{ color: "#3949ab" }}>Forgot password?</a>
-          </div>
+          </div> */}
           <Form.Item>
             <Button
               type="primary"

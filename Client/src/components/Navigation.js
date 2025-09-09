@@ -30,8 +30,6 @@ const Navigation = () => {
     { key: "/join", label: <Link to="/join">Join</Link> },
     { key: "/signin", label: <Link to="/signin">Sign In</Link> },
     { key: "/contact", label: <Link to="/contact">Contact</Link> },
-    { key: "/events", label: <Link to="/events">Events</Link> },
-    { key: "/payment", label: <Link to="/payment">Payment</Link> },
 
   ];
 
@@ -40,7 +38,7 @@ const Navigation = () => {
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
   ];
 
-  const desktopMenuItems = isLoggedIn ? userNavItems : guestNavItems;
+  const desktopMenuItems = isLoggedIn ?  guestNavItems : userNavItems;
 
   const userMenu = (
     <Menu>
@@ -82,14 +80,14 @@ const Navigation = () => {
         />
       </div>
 
-      {/* Right Side (User Menu) */}
+      {/* Right Side (User Menu)
       {isLoggedIn && (
         <Dropdown overlay={userMenu} placement="bottomRight">
           <Space style={{ cursor: "pointer", marginLeft: 20 }}>
             <UserOutlined /> Profile
           </Space>
         </Dropdown>
-      )}
+      )} */}
 
       {/* Mobile Hamburger Button */}
       <Button

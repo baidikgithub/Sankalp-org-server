@@ -8,6 +8,25 @@ body {
   background: #fff;
 }
 
+/* Navigation Responsive Styles */
+@media (max-width: 900px) {
+  .desktop-menu { 
+    display: none !important; 
+  }
+  .mobile-menu-btn { 
+    display: inline-flex !important; 
+  }
+}
+
+@media (min-width: 900px) {
+  .desktop-menu { 
+    display: block !important; 
+  }
+  .mobile-menu-btn { 
+    display: none !important; 
+  }
+}
+
 /* Public Pages */
 .App {
   min-height: 100vh;

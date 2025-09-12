@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const adminAuthController = require('../controllers/adminAuthController');
+const { adminLogin } = require('../controllers/adminAuthController');
 
-router.post('/login', adminAuthController.adminLogin);
+// @desc Admin login
+// @route POST /api/admin/login
+// @access Public
+router.post('/login', adminLogin);
 
 module.exports = router;

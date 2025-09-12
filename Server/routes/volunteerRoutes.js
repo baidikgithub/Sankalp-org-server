@@ -1,13 +1,15 @@
-// routes/volunteerRoutes.js
 const express = require('express');
 const router = express.Router();
-
 const { registerVolunteer, getVolunteers } = require('../controllers/volunteerController');
 
-// POST /api/volunteers → Register new volunteer
+// @desc Register new volunteer
+// @route POST /api/volunteers
+// @access Public
 router.post('/', registerVolunteer);
 
-// GET /api/volunteers → Get all volunteers (optional, can be added later)
-router.get('/', getVolunteers); // Uncomment if you implement this function
+// @desc Get all volunteers
+// @route GET /api/volunteers
+// @access Public
+router.get('/', getVolunteers);
 
 module.exports = router;

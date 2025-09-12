@@ -34,9 +34,11 @@ app.listen(PORT, () => {
 
 // Serve React frontend (production build)
 if (process.env.NODE_ENV === "production") {
+  // Serve static files
   app.use(express.static(path.join(__dirname, "../Client/build")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../Client/build", "index.html"));
+  // Handle React routing, return all requests to React app
+  app.get("/*", function(req, res) {
+    res.sendFile(path.resolve(__dirname, "../Client/build", "index.html"));
   });
 }

@@ -5,6 +5,9 @@
   "license": "ISC",
   "author": "Baidik",
   "type": "commonjs",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

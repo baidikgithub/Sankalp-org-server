@@ -22,7 +22,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import './styles/global/App.css';
 import AdminContactMessages from './pages/admin/contact';
-import AdminUsers from './pages/admin/Users';
+import AdminUsers from './pages/admin/AdminUsers';
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');

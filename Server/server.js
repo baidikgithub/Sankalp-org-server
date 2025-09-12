@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require("path");
 const connectDB = require('./config/ConnectDB');
 const authRoutes = require('./routes/authRoutes');
 const volunteerRoutes = require('./routes/volunteerRoutes');
@@ -30,3 +31,12 @@ app.use('/api/admin', adminAuthRoutes);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+// Serve React frontend (production build)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../Client/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../Client/build", "index.html"));
+  });
+}

@@ -2,8 +2,6 @@
 import heroImage from '../assets/about/about1.jpg';
 import missionImage from '../assets/about/about2.jpeg';
 import visionImage from '../assets/about/about3.jpeg';
-import impactImage from '../assets/about/about4.jpeg';
-import teamImage from '../assets/about/about5.jpeg';
 import communityImage from '../assets/about/about6.jpeg';
 
 // Organizational impact data

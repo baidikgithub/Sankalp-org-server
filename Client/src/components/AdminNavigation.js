@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography } from 'antd';
+import { Layout, Menu, Button, Typography } from 'antd';
 import {
   DashboardOutlined,
   TeamOutlined,
@@ -10,8 +10,6 @@ import {
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
-  LogoutOutlined,
   MessageOutlined,
 } from '@ant-design/icons';
 import { motion } from 'framer-motion';

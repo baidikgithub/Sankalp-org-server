@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   FormOutlined,
   MessageOutlined,
-  SmileOutlined,
 } from "@ant-design/icons";
 
 import StatCard from "../../components/StatCard";

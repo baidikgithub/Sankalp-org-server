@@ -1,25 +1,28 @@
 // src/pages/LoginPage.jsx
-
 import React, { useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
 const { Title, Text } = Typography;
 
-const AdminSignUpPage= () => {
+const AdminSignUpPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
     setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/admin/login", values);
-  
+      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+      const { data } = await axios.post(
+        `${API_BASE_URL}/api/admin/login`,
+        values
+      );
+
       // Example: if your API returns a token
       if (data.token) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("token", data.token);
       }
-  
+
       // Redirect after successful login
       window.location.href = "/admin/dashboard";
     } catch (error) {
@@ -72,9 +75,9 @@ const AdminSignUpPage= () => {
           >
             <Input
               prefix={<MailOutlined style={{ color: "#bfbfbf" }} />}
-                placeholder="username"
+              placeholder="username"
               size="large"
-              // autoComplete="username"
+            // autoComplete="username"
             />
           </Form.Item>
           <Form.Item

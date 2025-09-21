@@ -13,7 +13,6 @@ import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import Volunteers from './pages/admin/Volunteers';
-import AdminEvents from './pages/admin/Events';
 import Donations from './pages/admin/Donations';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -69,7 +68,6 @@ const AppContent = () => {
           <Route path="/admin" element={<AdminSignUp />} />
           <Route path="/admin/dashboard" element={<AdminLayout><Dashboard /></AdminLayout>} />
           <Route path="/admin/volunteers" element={<AdminLayout><Volunteers /></AdminLayout>} />
-          <Route path="/admin/events" element={<AdminLayout><AdminEvents /></AdminLayout>} />
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />
           <Route path="/admin/contact" element={<AdminLayout><AdminContactMessages /></AdminLayout>} />
           <Route path="/admin/users" element={<AdminLayout><AdminUsers /></AdminLayout>} />

@@ -8,8 +8,6 @@ import {
   FundOutlined,
   TeamOutlined,
   CalendarOutlined,
-  HourglassOutlined,
-  UserAddOutlined,
 } from "@ant-design/icons";
 
 // Import Reusable Components

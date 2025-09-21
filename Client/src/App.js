@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import 'antd/dist/reset.css'; // Ant Design CSS
 import Navigation from './components/Navigation';
 import Home from './pages/Home';

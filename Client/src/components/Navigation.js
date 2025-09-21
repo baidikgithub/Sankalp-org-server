@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, Drawer, Button, Dropdown, Space } from "antd";
-import { MenuOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Menu, Drawer, Button } from "antd";
+import { MenuOutlined, LogoutOutlined } from "@ant-design/icons";
 import logo from "../assets/logo/logo.png";
 
 const Navigation = () => {
@@ -40,13 +40,6 @@ const Navigation = () => {
 
   const desktopMenuItems = isLoggedIn ?  guestNavItems : userNavItems;
 
-  const userMenu = (
-    <Menu>
-      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
-        Logout
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <nav

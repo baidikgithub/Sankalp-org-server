@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "antd";
-import WhatsAppButton from "./WhatsAppButton";
 
 const UserTable = ({ users }) => {
   const columns = [

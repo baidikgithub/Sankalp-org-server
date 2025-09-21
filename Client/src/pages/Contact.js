@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Row, Col, Card, Typography, Space, Avatar, Button, Form, Input } from "antd";
+import { Row, Col, Card, Typography } from "antd";
 import {
   MailOutlined, PhoneOutlined, EnvironmentOutlined, ClockCircleOutlined,
   FacebookFilled, InstagramFilled, LinkedinFilled, YoutubeFilled

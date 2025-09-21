@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button, Typography, Modal, Result, Spin } from "antd";
+import { Modal } from "antd";
 
 import home1 from "../assets/home/home1.jpg";
 import home2 from "../assets/home/home2.jpg";
@@ -14,8 +14,6 @@ import PaymentMethodSelector from "../components/PaymentMethodSelector";
 import AmountSelector from "../components/AmountSelector";
 import PaymentForm from "../components/PaymentForm";
 import SuccessMessage from "../components/SuccessMessage";
-
-const { Title } = Typography;
 
 const fadeUp = {
   hidden: { y: 30, opacity: 0 },

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { message, Space, Typography, Card } from 'antd';
+import { message, Space, Card } from 'antd';
 import { motion } from 'framer-motion';
 import MemberTable from '../../components/MemberTable';
 import AddVolunteerForm from '../../components/AddVolunteerForm';
 import MemberFilters from '../../components/MemberFilters';
 import MemberStats from '../../components/MemberStats';
 import axios from 'axios';
-const { Title } = Typography;
 
 const containerVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -25,7 +24,6 @@ const Members = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingMember, setEditingMember] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
 
 
   useEffect(() => {
@@ -40,15 +38,6 @@ const Members = () => {
     } catch (err) {
       message.error("Failed to fetch members.");
     }
-  };
-  const onFinish = (values) => {
-    setLoading(true);
-    console.log("Form Submitted:", values); // 🔥 send to API here
-    setTimeout(() => {
-      setLoading(false);
-      message.success("Thank you for joining us! We will contact you soon.");
-      setVisible(false);
-    }, 2000);
   };
   const handleSubmit = async (values) => {
     try {
@@ -75,22 +64,6 @@ const Members = () => {
 
     return matchesSearch && matchesStatus && matchesRole;
   });
-
-
-  const handleAddMember = async (values) => {
-    setLoading(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      const newMember = { id: Math.max(...members.map(m => m.id), 0) + 1, ...values, joinDate: new Date().toISOString().split('T')[0], status: 'active' };
-      setMembers(prev => [...prev, newMember]);
-      setShowAddForm(false);
-      message.success('Member added successfully!');
-    } catch {
-      message.error('Failed to add member.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const interestOptions = [
     "Teaching",

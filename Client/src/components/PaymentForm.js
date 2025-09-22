@@ -2,9 +2,8 @@ import { motion } from "framer-motion";
 import { Form, Input, Select, Divider, Button, Card, Row, Col, Spin, Typography } from "antd";
 
 const { Text } = Typography;
-const { Option } = Select;
 
-export default function PaymentForm({ selectedOption, banks, getFinalAmount, isProcessing, onFinish }) {
+export default function PaymentForm({ selectedOption, getFinalAmount, isProcessing, onFinish }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -51,18 +50,6 @@ export default function PaymentForm({ selectedOption, banks, getFinalAmount, isP
             </Form.Item>
           )}
 
-          {/* Net Banking */}
-          {selectedOption === "netbanking" && (
-            <Form.Item name="bank" label="Select Bank" rules={[{ required: true }]}>
-              <Select placeholder="Choose your bank">
-                {banks.map((b) => (
-                  <Option key={b} value={b}>
-                    {b}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          )}
 
           <Divider />
           <Text strong>Donation Amount: ₹{getFinalAmount() || 0}</Text>

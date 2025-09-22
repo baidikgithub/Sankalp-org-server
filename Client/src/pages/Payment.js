@@ -42,28 +42,8 @@ export default function Payment() {
   const paymentMethods = [
     { id: "card", title: "Credit/Debit Card", icon: "💳" },
     { id: "upi", title: "UPI Payment", icon: "📱" },
-    { id: "netbanking", title: "Net Banking", icon: "🏦" },
-    { id: "wallet", title: "Digital Wallet", icon: "👛" },
   ];
 
-  const amountOptions = [
-    { value: "500", label: "₹500" },
-    { value: "1000", label: "₹1,000" },
-    { value: "2500", label: "₹2,500" },
-    { value: "5000", label: "₹5,000" },
-    { value: "10000", label: "₹10,000" },
-  ];
-
-  const banks = [
-    "State Bank of India",
-    "HDFC Bank",
-    "ICICI Bank",
-    "Axis Bank",
-    "Kotak Mahindra Bank",
-    "Punjab National Bank",
-    "Bank of Baroda",
-    "Canara Bank",
-  ];
 
   const galleryData = [
     { img: home1, title: "Education Impact", desc: "Supporting children's education" },
@@ -114,7 +94,6 @@ export default function Payment() {
 
       {/* Payment Modal */}
       <Modal
-        title="Make a Donation"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         footer={null}
@@ -134,7 +113,6 @@ export default function Payment() {
             setAmount={setAmount}
             customAmount={customAmount}
             setCustomAmount={setCustomAmount}
-            amountOptions={amountOptions}
           />
 
           {/* Payment Form */}
@@ -142,7 +120,6 @@ export default function Payment() {
             {selectedOption && (
               <PaymentForm
                 selectedOption={selectedOption}
-                banks={banks}
                 getFinalAmount={getFinalAmount}
                 isProcessing={isProcessing}
                 onFinish={onFinish}

@@ -1,39 +1,54 @@
-const Donation = require('../models/donation.model');
+const Donation = require("../models/Donation");
 
-// @desc Get all donations
-// @route GET /api/donations
-// @access Public
-exports.getDonations = async (req, res) => {
+// Get Payment Methods
+exports.getPaymentMethods = (req, res) => {
+  const paymentMethods = [
+    { id: "card", title: "Credit/Debit Card", icon: "💳" },
+    { id: "upi", title: "UPI Payment", icon: "📱" },
+  ];
+  res.json(paymentMethods);
+};
+
+// Get Banks
+exports.getBanks = (req, res) => {
+  const banks = [
+    "State Bank of India",
+    "HDFC Bank",
+    "ICICI Bank",
+    "Axis Bank",
+    "Kotak Mahindra Bank",
+    "Punjab National Bank",
+    "Bank of Baroda",
+    "Canara Bank",
+  ];
+  res.json(banks);
+};
+
+// Create Donation
+exports.createDonation = async (req, res) => {
   try {
-    const donations = await Donation.find().sort({ date: -1 });
-    return res.status(200).json(donations);
-  } catch (error) {
-    console.error('Error fetching donations:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
-}
-
-// @desc Add a new donation
-// @route POST /api/donations
-// @access Public
-exports.addDonation = async (req, res) => {
-  try {
-    const { donorName, email, amount, currency, category, paymentMethod, status, transactionId, message } = req.body;
-
-    // Basic validation
-    if (!donorName || !email || !amount || !currency || !category || !paymentMethod || !status || !transactionId) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
-
-    // Create a new donation document
-    const donation = new Donation({ donorName, email, amount, currency, category, paymentMethod, status, transactionId, message });
-
-    // Save to DB
+    const donation = new Donation(req.body);
     await donation.save();
-
-    return res.status(201).json({ message: 'Donation added successfully', donation });
-  } catch (error) {
-    console.error('Error adding donation:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    res.status(201).json({ message: "Donation created", donation });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
-}
+};
+
+// Mark Payment Success
+exports.markSuccess = async (req, res) => {
+  try {
+    const { donationId } = req.params;
+    const donation = await Donation.findByIdAndUpdate(
+      donationId,
+      { status: "success" },
+      { new: true }
+    );
+    if (!donation) return res.status(404).json({ error: "Donation not found" });
+    res.json({ message: "Payment marked successful", donation });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};

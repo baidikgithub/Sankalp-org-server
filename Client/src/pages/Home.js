@@ -19,16 +19,26 @@ const Home = () => {
     { from: "bot", text: "Hi! How can I help you today?" }
   ]);
   const [input, setInput] = useState("");
-
+  const API_URL = "http://localhost:5000/api/chat";
   const whatsappLink = "https://wa.me/1234567890";
   
-  const handleSend = () => {
-    if (!input.trim()) return;
-    setMessages([...messages, { from: "user", text: input }]);
-    setInput("");
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { from: "bot", text: "Thanks for your message! 😊" }]);
-    }, 700);
+  const handleSend = async () => {
+     if (!input.trim()) return;
+  const userMessage = input;
+  setMessages([...messages, { from: "user", text: userMessage }]);
+  setInput("");
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage }),
+    });
+    const data = await response.json();
+    setMessages((prev) => [...prev, { from: "bot", text: data.response }]);
+  } catch (error) {
+    setMessages((prev) => [...prev, { from: "bot", text: "Sorry, something went wrong." }]);
+  }
   };
 
   return (

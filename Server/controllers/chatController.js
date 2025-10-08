@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
+const fetch = require("node-fetch");
 
-export const handleChat = async (req, res) => {
+const handleChat = async (req, res) => {
   const { message } = req.body;
   if (!message) return res.json({ response: "Please type a message." });
 
@@ -18,3 +18,5 @@ export const handleChat = async (req, res) => {
     res.json({ response: "Sorry, something went wrong." });
   }
 };
+
+module.exports = { handleChat };

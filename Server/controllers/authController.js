@@ -109,25 +109,38 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
 
     // Send OTP via email with HTML formatting
-    await sendEmail({
-      to: user.email,
-      subject: "Password Reset Request - Sankalp Youth Organisation",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #3949ab;">Password Reset Request</h2>
-          <p>Hello,</p>
-          <p>You have requested to reset your password for your Sankalp Youth Organisation account.</p>
-          <div style="background: #f5f5f5; padding: 15px; margin: 20px 0; text-align: center; font-size: 24px; letter-spacing: 5px;">
-            <strong>${otp}</strong>
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Password Reset Request - Sankalp Youth Organisation",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #3949ab;">Password Reset Request</h2>
+            <p>Hello,</p>
+            <p>You have requested to reset your password for your Sankalp Youth Organisation account.</p>
+            <div style="background: #f5f5f5; padding: 15px; margin: 20px 0; text-align: center; font-size: 24px; letter-spacing: 5px;">
+              <strong>${otp}</strong>
+            </div>
+            <p>This OTP is valid for 10 minutes. If you did not request this password reset, please ignore this email.</p>
+            <p style="color: #666; font-size: 12px; margin-top: 20px;">
+              For security reasons, please do not share this OTP with anyone.
+            </p>
           </div>
-          <p>This OTP is valid for 10 minutes. If you did not request this password reset, please ignore this email.</p>
-          <p style="color: #666; font-size: 12px; margin-top: 20px;">
-            For security reasons, please do not share this OTP with anyone.
-          </p>
-        </div>
-      `,
-      text: `Your OTP for resetting password is: ${otp}. It is valid for 10 minutes.`, // Fallback plain text
-    });
+        `,
+        text: `Your OTP for resetting password is: ${otp}. It is valid for 10 minutes.`, // Fallback plain text
+      });
+    } catch (emailError) {
+      console.error("Email sending failed:", emailError);
+      // Clear the OTP if email sending fails
+      user.resetPasswordOtp = null;
+      user.resetPasswordExpiry = null;
+      await user.save();
+      
+      return res.status(500).json({
+        message: "Failed to send OTP. Please try again later.",
+        error: "Email service unavailable"
+      });
+    }
 
     return res.status(200).json({
       message: "If email exists, OTP sent",

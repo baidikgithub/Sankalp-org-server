@@ -7,7 +7,7 @@ import AuthLayout from "../components/AuthLayout";
 import AuthBranding from "../components/AuthBranding";
 import ForgotPasswordForm from "../components/ForgotPasswordForm";
 import logo from "../assets/logo/logo.png";
-import axios from "axios";
+import api from "../utils/api";
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     setLoading(true);
     console.log("Forgot Password form values:", values);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/auth/forgot-password", values);
+      const { data } = await api.post("/auth/forgot-password", values);
       message.success(data.message || "OTP has been sent to your email");
       navigate('/reset-password', { state: { email: values.email } });
     } catch (error) {

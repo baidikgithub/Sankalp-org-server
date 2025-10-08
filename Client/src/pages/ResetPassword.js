@@ -1,11 +1,11 @@
 // pages/ResetPassword.jsx
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Typography, Form, Input, Button, message } from "antd";
 import AuthLayout from "../components/AuthLayout";
 import AuthBranding from "../components/AuthBranding";
 import logo from "../assets/logo/logo.png";
-import axios from "axios";
+import api from "../utils/api";
 
 const { Title } = Typography;
 
@@ -14,13 +14,21 @@ const ResetPassword = () => {
   const [otpVerified, setOtpVerified] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get email from navigation state
+  useEffect(() => {
+    if (location.state?.email) {
+      setEmail(location.state.email);
+    }
+  }, [location.state]);
 
   // Step 1: Verify OTP
   const handleOtpVerify = async (values) => {
     setLoading(true);
     try {
       const { email, otp } = values;
-      await axios.post("http://localhost:5001/api/auth/verify-otp", { email, otp });
+      await api.post("/auth/verify-otp", { email, otp });
       message.success("OTP verified! Please enter your new password.");
       setOtpVerified(true);
       setEmail(email);
@@ -38,7 +46,7 @@ const ResetPassword = () => {
     setLoading(true);
     try {
       const { newPassword } = values;
-      await axios.post("http://localhost:5001/api/auth/reset-password", { email, newPassword });
+      await api.post("/auth/reset-password", { email, newPassword });
       message.success("Password reset successful! Please sign in.");
       navigate("/signin");
     } catch (error) {
@@ -66,7 +74,7 @@ const ResetPassword = () => {
           </Title>
 
           {!otpVerified ? (
-            <Form layout="vertical" onFinish={handleOtpVerify} requiredMark="optional">
+            <Form layout="vertical" onFinish={handleOtpVerify} requiredMark="optional" initialValues={{ email }}>
               <Form.Item
                 name="email"
                 rules={[
@@ -74,7 +82,7 @@ const ResetPassword = () => {
                   { type: "email", message: "Please enter a valid email" },
                 ]}
               >
-                <Input placeholder="Email Address" size="large" />
+                <Input placeholder="Email Address" size="large" disabled={!!email} />
               </Form.Item>
 
               <Form.Item

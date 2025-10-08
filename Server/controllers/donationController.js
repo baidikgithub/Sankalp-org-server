@@ -1,4 +1,4 @@
-const Donation = require("../models/Donation");
+const Donation = require("../models/donation.model");
 
 // Get Payment Methods
 exports.getPaymentMethods = (req, res) => {
@@ -35,6 +35,20 @@ exports.createDonation = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+// Get all donations
+exports.getDonations = async (req, res) => {
+  try {
+    const donations = await Donation.find().sort({ createdAt: -1 });
+    res.json(donations);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Add a new donation (alias for createDonation)
+exports.addDonation = exports.createDonation;
 
 // Mark Payment Success
 exports.markSuccess = async (req, res) => {

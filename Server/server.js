@@ -14,7 +14,7 @@ const adminAuthRoutes = require('./routes/adminAuthRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware to parse JSON body
 app.use(express.json());

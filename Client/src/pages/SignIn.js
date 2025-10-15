@@ -1,30 +1,29 @@
 // pages/SignIn.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 import AuthLayout from "../components/AuthLayout";
 import AuthBranding from "../components/AuthBranding";
 import SignInForm from "../components/SignInForm";
 import logo from "../assets/logo/logo.png";
-import axios from "axios";
+import api from "../utils/api";
 const SignIn = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleFinish = async (values) => {
-    setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/auth/signin", values);
+      const { data } = await api.post("/auth/signin", values);
       console.log("Sign In form values:", values);
       if (data.token) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("token", data.token);
+        message.success("Login successful!");
         navigate("/");
       }
     } catch (error) {
       console.error("Sign In error:", error);
-    }
-    finally {
-      setLoading(false);
+      const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
+      message.error(errorMessage);
     }
   };
   return (

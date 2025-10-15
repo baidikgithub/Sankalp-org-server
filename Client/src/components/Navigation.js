@@ -27,6 +27,7 @@ const Navigation = () => {
   const guestNavItems = [
     { key: "/", label: <Link to="/">Home</Link> },
     { key: "/about", label: <Link to="/about">About</Link> },
+    { key: "/emergency", label: <Link to="/emergency">Emergency Help</Link> },
     { key: "/join", label: <Link to="/join">Join</Link> },
     { key: "/signin", label: <Link to="/signin">Sign In</Link> },
     { key: "/contact", label: <Link to="/contact">Contact</Link> },
@@ -34,11 +35,16 @@ const Navigation = () => {
   ];
 
   const userNavItems = [
-    { key: "/events", label: <Link to="/events">Events</Link> }, ,
+    { key: "/", label: <Link to="/">Home</Link> },
+    { key: "/about", label: <Link to="/about">About</Link> },
+    { key: "/join", label: <Link to="/join">Join</Link> },
+    { key: "/signin", label: <Link to="/signin">Sign In</Link> },
+    { key: "/contact", label: <Link to="/contact">Contact</Link> },
+    { key: "/emergency", label: <Link to="/emergency">Emergency Help</Link> },
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
   ];
 
-  const desktopMenuItems = isLoggedIn ?  guestNavItems : userNavItems;
+  const desktopMenuItems = isLoggedIn ? userNavItems : guestNavItems;
 
 
   return (

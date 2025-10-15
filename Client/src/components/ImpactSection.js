@@ -17,7 +17,7 @@ const ImpactSection = ({ impactMetrics }) => {
         {impactMetrics.map((metric, idx) => (
           <Col xs={24} sm={12} md={6} key={idx}>
             <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
-              <Card hoverable bordered={false} style={{ textAlign: "center" }}>
+              <Card hoverable variant="borderless" style={{ textAlign: "center" }}>
                 <Title level={3}>
                   {metric.number}
                   <span style={{ color: "#28a745" }}>{metric.suffix}</span>

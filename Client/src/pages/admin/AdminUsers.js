@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { TeamOutlined, UserOutlined } from "@ant-design/icons";
 import StatCard from "../../components/StatCard";
 import UserTable from "../../components/UserTable";
-import axios from "axios";
+import api from "../../utils/api";
 
 
 const AdminUsers = () => {
@@ -14,7 +14,7 @@ const AdminUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/users");
+        const response = await api.get("/users");
         const usersData = response.data;
         setUsers(usersData);
         const totalUsers = usersData.length;

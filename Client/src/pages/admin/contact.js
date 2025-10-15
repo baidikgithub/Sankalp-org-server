@@ -33,7 +33,7 @@ const AdminContact = () => {
   useEffect(() => {
   const fetchContacts = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/contact");
+      const response = await fetch("/api/contact");
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }

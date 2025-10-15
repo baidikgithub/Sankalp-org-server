@@ -19,7 +19,7 @@ const Home = () => {
     { from: "bot", text: "Hi! How can I help you today?" }
   ]);
   const [input, setInput] = useState("");
-  const API_URL = "http://localhost:5000/api/chat";
+  const API_URL = "/api/chat";
   const whatsappLink = "https://wa.me/1234567890";
   
   const handleSend = async () => {

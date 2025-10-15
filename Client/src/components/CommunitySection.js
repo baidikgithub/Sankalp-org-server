@@ -21,17 +21,17 @@ const CommunitySection = ({ communityImage }) => (
           </Paragraph>
           <Row gutter={[16, 16]}>
             <Col span={24}>
-              <Card bordered style={{ borderLeft: "4px solid #1890ff" }}>
+              <Card variant="bordered" style={{ borderLeft: "4px solid #1890ff" }}>
                 Community Participation
               </Card>
             </Col>
             <Col span={24}>
-              <Card bordered style={{ borderLeft: "4px solid #1890ff" }}>
+              <Card variant="bordered" style={{ borderLeft: "4px solid #1890ff" }}>
                 Evidence-Based Approach
               </Card>
             </Col>
             <Col span={24}>
-              <Card bordered style={{ borderLeft: "4px solid #1890ff" }}>
+              <Card variant="bordered" style={{ borderLeft: "4px solid #1890ff" }}>
                 Sustainable Solutions
               </Card>
             </Col>

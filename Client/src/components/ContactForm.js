@@ -4,7 +4,7 @@ import { Card, Form, Input, Button, Row, Col } from "antd";
 
 const ContactForm = ({ onSubmit, isSubmitting, submitMessage }) => (
   <motion.div>
-    <Card title="Send Us a Message" bordered={false}>
+    <Card title="Send Us a Message" variant="borderless">
       {submitMessage && (
         <motion.div style={{ marginBottom: 20, color: "green" }} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           {submitMessage}

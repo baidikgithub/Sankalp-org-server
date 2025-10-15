@@ -6,16 +6,24 @@ import { Link } from "react-router-dom";
 
 const { Title } = Typography;
 
-const SignUpForm = () => {
+const SignUpForm = ({ handleFinish }) => {
   const [loading, setLoading] = useState(false);
 
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      await handleFinish(values);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{ padding: "3rem 2.5rem" }}>
       <Title level={4} style={{ color: "#1a237e", marginBottom: 25 }}>
         Sign Up
       </Title>
-      <Form layout="vertical" requiredMark="optional">
+      <Form layout="vertical" requiredMark="optional" onFinish={onFinish}>
         <Form.Item
           name="name"
           rules={[{ required: true, message: "Please enter your name" }]}

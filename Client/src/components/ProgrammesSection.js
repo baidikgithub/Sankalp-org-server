@@ -19,7 +19,7 @@ const ProgrammesSection = ({ programmes }) => {
             <motion.div variants={fadeInUp} transition={{ duration: 0.5, delay: idx * 0.1 }}>
               <Card
                 hoverable
-                bordered={false}
+                variant="borderless"
                 style={{ borderTop: `4px solid ${programme.color}` }}
               >
                 <div style={{ fontSize: 40, color: programme.color }}>

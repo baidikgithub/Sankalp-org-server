@@ -5,7 +5,7 @@ import DonationsStatsCards from '../../components/DonationsStatsCards';
 import DonationsFilters from '../../components/DonationsFilters';
 import DonationsTable from '../../components/DonationsTable';
 import DonationDetailsDrawer from '../../components/DonationDetailsDrawer';
-import axios from 'axios';
+import api from '../../utils/api';
 const { Text } = Typography;
 
 const DonationsPage = () => {
@@ -26,7 +26,7 @@ const DonationsPage = () => {
 
   const fetchDonations = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/donations');
+      const res = await api.get('/donations');
       setDonations(res.data);
     } catch (err) {
       message.error("Failed to fetch members.");

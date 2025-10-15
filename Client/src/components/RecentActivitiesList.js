@@ -13,7 +13,7 @@ const RecentActivitiesList = ({ activities }) => {
     >
       <Card
         title={<span style={{ fontWeight: 600 }}>Recent Activities</span>}
-        bordered={false}
+        variant="borderless"
         style={{
           borderRadius: 12,
           boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",

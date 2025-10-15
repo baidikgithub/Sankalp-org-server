@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../utils/api";
 import { motion } from "framer-motion";
 import { Row, Col } from "antd";
 import {
@@ -22,13 +22,13 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/dashboard/stats");
+        const res = await api.get("/dashboard/stats");
         setStats(res.data);
       } catch (e) {}
     };
     const fetchActivities = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/dashboard/activities");
+        const res = await api.get("/dashboard/activities");
         setRecentActivities(res.data || []);
       } catch (e) {}
     };

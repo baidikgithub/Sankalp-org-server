@@ -22,9 +22,9 @@ const CommunitySection = ({ communityImage, sectionVariants }) => (
             We partner with like-minded institutions for long-term change.
           </Paragraph>
           <Row gutter={[16, 16]}>
-            <Col span={24}><Card bordered style={{ borderLeft: '4px solid #1890ff' }}>Community Participation</Card></Col>
-            <Col span={24}><Card bordered style={{ borderLeft: '4px solid #1890ff' }}>Evidence-Based Approach</Card></Col>
-            <Col span={24}><Card bordered style={{ borderLeft: '4px solid #1890ff' }}>Sustainable Solutions</Card></Col>
+            <Col span={24}><Card variant="bordered" style={{ borderLeft: '4px solid #1890ff' }}>Community Participation</Card></Col>
+            <Col span={24}><Card variant="bordered" style={{ borderLeft: '4px solid #1890ff' }}>Evidence-Based Approach</Card></Col>
+            <Col span={24}><Card variant="bordered" style={{ borderLeft: '4px solid #1890ff' }}>Sustainable Solutions</Card></Col>
           </Row>
         </Col>
         <Col xs={24} md={12}>

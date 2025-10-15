@@ -49,7 +49,7 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitMessage("");
     try {
-      const response = await fetch("http://localhost:5001/api/contact/submit", {
+      const response = await fetch("/api/contact/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -96,7 +96,7 @@ const Contact = () => {
 
           {/* Contact Info */}
           <Col xs={24} md={10}>
-            <Card title="Get in Touch" bordered={false}>
+            <Card title="Get in Touch" variant="borderless">
               <Paragraph>
                 We'd love to hear from you. Send us a message and we'll respond quickly.
               </Paragraph>

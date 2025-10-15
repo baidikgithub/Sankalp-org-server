@@ -5,7 +5,6 @@ import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Events from './pages/Events';
 import JoinUs from './pages/JoinUs';
 import Payment from './pages/Payment';
 import Footer from './components/Footer';
@@ -21,6 +20,10 @@ import ResetPassword from './pages/ResetPassword';
 import './styles/global/App.css';
 import AdminContactMessages from './pages/admin/contact';
 import AdminUsers from './pages/admin/AdminUsers';
+import EmergencyPortal from './pages/EmergencyPortal';
+import AdminAnalytics from './pages/AdminAnalytics';
+import AdminEmergencyPortal from './pages/admin/AdminEmergencyPortal';
+import AdminMessages from './pages/admin/AdminMessages';
 const AppContent = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -70,6 +73,9 @@ const AppContent = () => {
           <Route path="/admin/donations" element={<AdminLayout><Donations /></AdminLayout>} />
           <Route path="/admin/contact" element={<AdminLayout><AdminContactMessages /></AdminLayout>} />
           <Route path="/admin/users" element={<AdminLayout><AdminUsers /></AdminLayout>} />
+          <Route path="/admin/analytics" element={<AdminLayout><AdminAnalytics /></AdminLayout>} />
+          <Route path="/admin/emergency" element={<AdminLayout><AdminEmergencyPortal /></AdminLayout>} />
+          <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
           {/* Add more admin routes as needed */}
         </Routes>
       </div>
@@ -89,9 +95,9 @@ const AppContent = () => {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/events" element={<Events />} />
           <Route path="/join" element={<JoinUs />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/emergency" element={<EmergencyPortal />} />
         </Routes>
       </main>
       <Footer />

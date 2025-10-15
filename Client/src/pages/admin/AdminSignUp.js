@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import axios from "axios";
+import api from "../../utils/api";
 const { Title, Text } = Typography;
 
 const AdminSignUpPage = () => {
@@ -11,11 +11,7 @@ const AdminSignUpPage = () => {
   const handleFinish = async (values) => {
     setLoading(true);
     try {
-      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-      const { data } = await axios.post(
-        `${API_BASE_URL}/api/admin/login`,
-        values
-      );
+      const { data } = await api.post("/admin/login", values);
 
       // Example: if your API returns a token
       if (data.token) {

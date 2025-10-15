@@ -5,7 +5,7 @@ import MemberTable from '../../components/MemberTable';
 import AddVolunteerForm from '../../components/AddVolunteerForm';
 import MemberFilters from '../../components/MemberFilters';
 import MemberStats from '../../components/MemberStats';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -33,7 +33,7 @@ const Members = () => {
   const fetchMembers = async () => {
     try {
       console.log("Fetching members...");
-      const res = await axios.get('http://localhost:5001/api/volunteers');
+      const res = await api.get('/volunteers');
       setMembers(res.data);
     } catch (err) {
       message.error("Failed to fetch members.");
@@ -43,7 +43,7 @@ const Members = () => {
     try {
       console.log("Form Submitted:", values);
 
-      const response = await axios.post("http://localhost:5001/api/volunteers", values);
+      const response = await api.post("/volunteers", values);
 
       console.log("Success:", response.data);
       alert("Volunteer registered successfully!");

@@ -1,30 +1,25 @@
 // pages/SignUp.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 import AuthLayout from "../components/AuthLayout";
 import AuthBranding from "../components/AuthBranding";
 import SignUpForm from "../components/SignUpForm";
 import logo from "../assets/logo/logo.png";
-import axios from "axios";
+import api from "../utils/api";
 const SignUp = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleFinish = async (values) => {
-    setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/auth/signup", values);
+      await api.post("/auth/signup", values);
       console.log("Sign Up form values:", values);
-      if (data.token) {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("token", data.token);
-        navigate("/");
-      }
+      message.success("Registration successful! Please sign in.");
+      navigate("/signin");
     } catch (error) {
       console.error("Sign Up error:", error);
-    }
-    finally {
-      setLoading(false);
+      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+      message.error(errorMessage);
     }
   };
   return (

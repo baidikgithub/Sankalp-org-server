@@ -29,7 +29,7 @@ const FocusAreasSection = ({ data }) => (
                     <span style={{ fontSize: 24 }}>{area.icon}</span> {area.area}
                   </span>
                 }
-                bordered
+                variant="bordered"
                 style={{ borderRadius: 12 }}
               >
                 <Paragraph>{area.description}</Paragraph>

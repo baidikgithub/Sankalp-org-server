@@ -4,13 +4,13 @@ import { Layout, Menu, Button, Typography } from 'antd';
 import {
   DashboardOutlined,
   TeamOutlined,
-  CalendarOutlined,
   DollarOutlined,
   SettingOutlined,
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MessageOutlined,
+  SafetyCertificateOutlined,
 } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 
@@ -23,11 +23,12 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
 
   const menuItems = [
     { key: '/admin', icon: <DashboardOutlined />, label: 'Dashboard', onClick: () => navigate('/admin') },
+    { key: '/admin/emergency', icon: <SafetyCertificateOutlined />, label: 'Emergency Portal', onClick: () => navigate('/admin/emergency') },
+    { key: '/admin/messages', icon: <MessageOutlined />, label: 'Messages', onClick: () => navigate('/admin/messages') },
     { key: '/admin/volunteers', icon: <TeamOutlined />, label: 'Volunteers', onClick: () => navigate('/admin/volunteers') },
-    { key: '/admin/events', icon: <CalendarOutlined />, label: 'Events', onClick: () => navigate('/admin/events') },
     { key: '/admin/donations', icon: <DollarOutlined />, label: 'Donations', onClick: () => navigate('/admin/donations') },
     { key: '/admin/users', icon: <SettingOutlined />, label: 'Users', onClick: () => navigate('/admin/users') },
-    { key: '/adimin/contact', icon: <MessageOutlined />, label: 'Contacts', onClick: () => navigate('/admin/contact') },
+    { key: '/admin/contact', icon: <MessageOutlined />, label: 'Contacts', onClick: () => navigate('/admin/contact') },
   ];
 
 
@@ -41,7 +42,7 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
         collapsible
         collapsed={collapsed}
         style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: '#ffffff',
           boxShadow: '2px 0 8px 0 rgba(29,35,41,.05)',
           position: 'fixed',
           left: 0,
@@ -50,6 +51,7 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
           zIndex: 1000,
           display: 'flex',
           flexDirection: 'column',
+          borderRight: '1px solid #f0f0f0',
         }}
         width={250}
         collapsedWidth={60}
@@ -60,7 +62,7 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={onCollapse}
-            style={{ color: 'white', fontSize: '18px', background: 'transparent' }}
+            style={{ color: '#666', fontSize: '18px', background: 'transparent' }}
           />
         </div>
 
@@ -69,25 +71,26 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
           style={{
             height: '64px',
             margin: '0 16px 16px',
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: '#f8f9fa',
             borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'flex-start',
             padding: collapsed ? '0' : '0 16px',
             transition: 'all 0.3s',
+            border: '1px solid #e9ecef',
           }}
-          whileHover={{ background: 'rgba(255, 255, 255, 0.2)' }}
+          whileHover={{ background: '#e9ecef' }}
         >
           <img src="/logo.png" alt="Sankalp Youth" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
           {!collapsed && (
-            <Text style={{ color: 'white', marginLeft: '12px', fontWeight: 600, fontSize: '16px' }}>Sankalp Youth</Text>
+            <Text style={{ color: '#333', marginLeft: '12px', fontWeight: 600, fontSize: '16px' }}>Sankalp Youth</Text>
           )}
         </motion.div>
 
         {/* Nav Menu */}
         <Menu
-          theme="dark"
+          theme="light"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
@@ -101,14 +104,15 @@ const AdminNavigation = ({ collapsed, onCollapse, children }) => {
             icon={<HomeOutlined />}
             onClick={handleBackToSite}
             style={{
-              color: 'white',
+              color: '#666',
               width: '100%',
               justifyContent: collapsed ? 'center' : 'flex-start',
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: '#f8f9fa',
               borderRadius: '6px',
+              border: '1px solid #e9ecef',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)')}
-            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#e9ecef')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = '#f8f9fa')}
           >
             {!collapsed && <span style={{ marginLeft: '8px' }}>Back to Site</span>}
           </Button>

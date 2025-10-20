@@ -21,6 +21,15 @@ const messageSchema = new mongoose.Schema(
     },
     isRead: { type: Boolean, default: false },
     readAt: { type: Date },
+    // Additional user information
+    userEmail: { type: String },
+    userPhone: { type: String },
+    location: { type: String },
+    priority: { 
+      type: String, 
+      enum: ['low', 'medium', 'high', 'urgent'],
+      default: 'medium'
+    },
     attachments: [{
       type: { type: String },
       url: { type: String },

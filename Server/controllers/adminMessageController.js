@@ -7,19 +7,45 @@ exports.getConversations = async (req, res) => {
     
     // Get unique conversations
     const conversations = await Message.aggregate([
+      // Consider only messages that involve admin on either side
       {
         $match: {
           $or: [
             { receiverId: 'admin' },
-            { senderId: { $ne: 'admin' } }
+            { senderId: 'admin' }
           ]
         }
       },
+      // Derive the non-admin participant's id and name for each message
+      {
+        $addFields: {
+          participantUserId: {
+            $cond: [
+              { $eq: ['$receiverId', 'admin'] },
+              '$senderId',
+              '$receiverId'
+            ]
+          },
+          participantUserName: {
+            $cond: [
+              { $eq: ['$receiverId', 'admin'] },
+              '$senderName',
+              '$receiverName'
+            ]
+          }
+        }
+      },
+      // Sort so we can reliably pick first/last inside groups
+      { $sort: { createdAt: 1 } },
       {
         $group: {
           _id: '$conversationId',
-          userId: { $first: '$senderId' },
-          userName: { $first: '$senderName' },
+          userId: { $last: '$participantUserId' },
+          userName: { $last: '$participantUserName' },
+          userEmail: { $first: '$userEmail' },
+          userPhone: { $first: '$userPhone' },
+          location: { $first: '$location' },
+          priority: { $first: '$priority' },
           lastMessage: { $last: '$message' },
           lastMessageTime: { $last: '$createdAt' },
           unreadCount: {
@@ -34,15 +60,9 @@ exports.getConversations = async (req, res) => {
           isEmergency: { $max: '$isEmergency' }
         }
       },
-      {
-        $sort: { lastMessageTime: -1 }
-      },
-      {
-        $skip: (page - 1) * limit
-      },
-      {
-        $limit: parseInt(limit)
-      }
+      { $sort: { lastMessageTime: -1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: parseInt(limit) }
     ]);
     
     const total = await Message.distinct('conversationId').length;
@@ -52,12 +72,16 @@ exports.getConversations = async (req, res) => {
       data: conversations.map(conv => ({
         id: conv._id,
         userId: conv.userId,
-        userName: conv.userName,
+        userName: conv.userName || 'Unknown User',
+        userEmail: conv.userEmail || '',
+        userPhone: conv.userPhone || '',
         lastMessage: conv.lastMessage,
         lastMessageTime: conv.lastMessageTime,
         unreadCount: conv.unreadCount,
         isEmergency: conv.isEmergency,
-        status: 'online' // This would be determined by Socket.IO connection status
+        status: 'online', // This would be determined by Socket.IO connection status
+        location: conv.location || 'Unknown Location',
+        priority: conv.priority || 'normal'
       })),
       pagination: {
         current: parseInt(page),

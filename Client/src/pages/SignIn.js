@@ -17,6 +17,14 @@ const SignIn = () => {
       if (data.token) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("token", data.token);
+        
+        // Store user information
+        if (data.user) {
+          localStorage.setItem("userId", data.user.id);
+          localStorage.setItem("userName", data.user.name);
+          localStorage.setItem("userEmail", data.user.email);
+        }
+        
         message.success("Login successful!");
         navigate("/");
       }

@@ -225,7 +225,10 @@ const AdminMessages = () => {
       setLoading(true);
       const response = await adminApi.messages.getConversations();
       if (response.data.success) {
-        setConversations(response.data.data);
+        setConversations(response.data.data.map(c => ({
+          ...c,
+          userName: c.userName || 'Unknown User'
+        })));
       } else {
         message.error('Failed to load conversations');
       }

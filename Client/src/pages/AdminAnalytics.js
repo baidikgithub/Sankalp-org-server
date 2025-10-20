@@ -57,7 +57,7 @@ const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
-const { TabPane } = Tabs;
+// TabPane is deprecated in Ant Design v5+, using items prop instead
 const { RangePicker } = DatePicker;
 
 const AdminAnalytics = () => {
@@ -607,45 +607,58 @@ const AdminAnalytics = () => {
 
         {/* Data Tables */}
         <Card>
-          <Tabs defaultActiveKey="requests">
-            <TabPane tab="All Requests" key="requests">
-              <div style={{ marginBottom: '16px' }}>
-                <Space>
-                  <Select 
-                    value={filterType} 
-                    onChange={setFilterType}
-                    style={{ width: 200 }}
-                    placeholder="Filter by type"
-                  >
-                    <Option value="all">All Types</Option>
-                    <Option value="medical">Medical</Option>
-                    <Option value="food">Food</Option>
-                    <Option value="education">Education</Option>
-                    <Option value="shelter">Shelter</Option>
-                    <Option value="transport">Transport</Option>
-                  </Select>
-                  <Button icon={<SearchOutlined />}>Search</Button>
-                  <Button icon={<FilterOutlined />}>Advanced Filter</Button>
-                </Space>
-              </div>
-              <Table
-                columns={requestColumns}
-                dataSource={requests}
-                rowKey="id"
-                pagination={{ pageSize: 10 }}
-                scroll={{ x: 1000 }}
-              />
-            </TabPane>
-            <TabPane tab="Volunteers" key="volunteers">
-              <Table
-                columns={volunteerColumns}
-                dataSource={volunteers}
-                rowKey="id"
-                pagination={{ pageSize: 10 }}
-                scroll={{ x: 800 }}
-              />
-            </TabPane>
-          </Tabs>
+          <Tabs 
+            defaultActiveKey="requests"
+            items={[
+              {
+                key: 'requests',
+                label: 'All Requests',
+                children: (
+                  <div>
+                    <div style={{ marginBottom: '16px' }}>
+                      <Space>
+                        <Select 
+                          value={filterType} 
+                          onChange={setFilterType}
+                          style={{ width: 200 }}
+                          placeholder="Filter by type"
+                        >
+                          <Option value="all">All Types</Option>
+                          <Option value="medical">Medical</Option>
+                          <Option value="food">Food</Option>
+                          <Option value="education">Education</Option>
+                          <Option value="shelter">Shelter</Option>
+                          <Option value="transport">Transport</Option>
+                        </Select>
+                        <Button icon={<SearchOutlined />}>Search</Button>
+                        <Button icon={<FilterOutlined />}>Advanced Filter</Button>
+                      </Space>
+                    </div>
+                    <Table
+                      columns={requestColumns}
+                      dataSource={requests}
+                      rowKey="id"
+                      pagination={{ pageSize: 10 }}
+                      scroll={{ x: 1000 }}
+                    />
+                  </div>
+                )
+              },
+              {
+                key: 'volunteers',
+                label: 'Volunteers',
+                children: (
+                  <Table
+                    columns={volunteerColumns}
+                    dataSource={volunteers}
+                    rowKey="id"
+                    pagination={{ pageSize: 10 }}
+                    scroll={{ x: 800 }}
+                  />
+                )
+              }
+            ]}
+          />
         </Card>
 
         {/* Request Details Modal */}
@@ -815,6 +828,7 @@ const AdminAnalytics = () => {
 };
 
 export default AdminAnalytics;
+
 
 
 

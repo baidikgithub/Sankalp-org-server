@@ -76,7 +76,6 @@ const AppContent = () => {
           <Route path="/admin/analytics" element={<AdminLayout><AdminAnalytics /></AdminLayout>} />
           <Route path="/admin/emergency" element={<AdminLayout><AdminEmergencyPortal /></AdminLayout>} />
           <Route path="/admin/messages" element={<AdminLayout><AdminMessages /></AdminLayout>} />
-          {/* Add more admin routes as needed */}
         </Routes>
       </div>
     );

@@ -17,6 +17,7 @@ const adminEmergencyRoutes = require('./routes/adminEmergencyRoutes');
 const adminMessageRoutes = require('./routes/adminMessageRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const { saveMessage } = require('./controllers/adminMessageController');
+const User = require('./models/user.model');
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
@@ -77,7 +78,30 @@ io.on('connection', (socket) => {
 
   // Handle sending messages
   socket.on('sendMessage', async (data) => {
-    const { receiverId, message, senderId, senderName, isEmergency } = data;
+    const { receiverId, message, senderId, senderName, isEmergency, userEmail, userPhone, location, priority } = data;
+    const user = connectedUsers.get(socket.id);
+
+    // Attempt to enrich sender name from DB when message is from a user
+    let resolvedSenderName = senderName || (user ? user.userName : 'User');
+    if (receiverId === 'admin') {
+      try {
+        let userDoc = null;
+        // Try finding by email first if provided
+        if (userEmail) {
+          userDoc = await User.findOne({ email: userEmail }).lean();
+        }
+        // Fallback: try by Mongo _id if senderId looks like one
+        if (!userDoc && senderId && senderId.length === 24) {
+          userDoc = await User.findById(senderId).lean();
+        }
+        if (userDoc && userDoc.name) {
+          resolvedSenderName = userDoc.name;
+        }
+      } catch (e) {
+        console.error('Failed to resolve user name for message:', e);
+      }
+    }
+
     const messageData = {
       messageId: Date.now().toString(),
       conversationId: receiverId === 'admin' ? `user_${senderId}_admin` : `${senderId}_${receiverId}`,
@@ -86,8 +110,12 @@ io.on('connection', (socket) => {
       message,
       timestamp: new Date().toISOString(),
       isEmergency: isEmergency || false,
-      senderName: senderName || 'User',
-      receiverName: receiverId === 'admin' ? 'Admin' : 'User'
+      senderName: resolvedSenderName,
+      receiverName: receiverId === 'admin' ? 'Admin' : 'User',
+      userEmail: userEmail || '',
+      userPhone: userPhone || '',
+      location: location || '',
+      priority: priority || 'medium'
     };
 
     console.log('Message received:', messageData);

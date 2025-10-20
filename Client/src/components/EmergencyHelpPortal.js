@@ -50,6 +50,7 @@ import {
 import io from 'socket.io-client';
 import LocationTracking from './LocationTracking';
 import RealTimeChat from './RealTimeChat';
+import { getCurrentUser, getUserDisplayName } from '../utils/auth';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -76,6 +77,7 @@ const EmergencyHelpPortal = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [adminId, setAdminId] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [isAdminOnline, setIsAdminOnline] = useState(false);
   const [adminInfo, setAdminInfo] = useState(null);
@@ -129,10 +131,20 @@ const EmergencyHelpPortal = () => {
     const role = localStorage.getItem('userRole') || 'user';
     setUserRole(role);
     
-    // Initialize user ID
-    const currentUserId = localStorage.getItem('userId') || `user_${Date.now()}`;
-    setUserId(currentUserId);
-    localStorage.setItem('userId', currentUserId);
+    // Get user information from authentication
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      setUserId(currentUser.id);
+      setUserName(getUserDisplayName(currentUser));
+    } else {
+      // Fallback for non-authenticated users
+      const fallbackUserId = `user_${Date.now()}`;
+      const fallbackUserName = 'Anonymous User';
+      setUserId(fallbackUserId);
+      setUserName(fallbackUserName);
+      localStorage.setItem('userId', fallbackUserId);
+      localStorage.setItem('userName', fallbackUserName);
+    }
     
     // Check for emergency mode in URL params
     const urlParams = new URLSearchParams(window.location.search);
@@ -161,7 +173,7 @@ const EmergencyHelpPortal = () => {
       // Join user room
       newSocket.emit('joinUserRoom', { 
         userId: userId, 
-        userName: `User_${userId.slice(-4)}` // Generate a user name from userId
+        userName: userName || 'Anonymous User'
       });
     });
 
@@ -236,7 +248,11 @@ const EmergencyHelpPortal = () => {
       message: messageText,
       timestamp: new Date().toISOString(),
       isEmergency: isEmergency || emergencyMode,
-      senderName: `User_${userId.slice(-4)}`
+      senderName: userName || 'Anonymous User',
+      userEmail: (getCurrentUser()?.email) || localStorage.getItem('userEmail') || '',
+      userPhone: localStorage.getItem('userPhone') || '',
+      location: location || 'Unknown Location',
+      priority: emergencyMode ? 'urgent' : 'medium'
     };
 
     // Add message to local state immediately

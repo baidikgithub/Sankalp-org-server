@@ -11,8 +11,16 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
+    const updateLoginState = () => {
+      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(loggedIn);
+    };
+    updateLoginState();
+    // Update on storage change (cross-tab) and route change
+    window.addEventListener('storage', updateLoginState);
+    return () => {
+      window.removeEventListener('storage', updateLoginState);
+    };
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -27,7 +35,6 @@ const Navigation = () => {
   const guestNavItems = [
     { key: "/", label: <Link to="/">Home</Link> },
     { key: "/about", label: <Link to="/about">About</Link> },
-    { key: "/emergency", label: <Link to="/emergency">Emergency Help</Link> },
     { key: "/join", label: <Link to="/join">Join</Link> },
     { key: "/signin", label: <Link to="/signin">Sign In</Link> },
     { key: "/contact", label: <Link to="/contact">Contact</Link> },
@@ -38,7 +45,6 @@ const Navigation = () => {
     { key: "/", label: <Link to="/">Home</Link> },
     { key: "/about", label: <Link to="/about">About</Link> },
     { key: "/join", label: <Link to="/join">Join</Link> },
-    { key: "/signin", label: <Link to="/signin">Sign In</Link> },
     { key: "/contact", label: <Link to="/contact">Contact</Link> },
     { key: "/emergency", label: <Link to="/emergency">Emergency Help</Link> },
     { key: "/payment", label: <Link to="/payment">Payment</Link> },
